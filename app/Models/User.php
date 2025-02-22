@@ -26,7 +26,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
         'email',
         'password',
     ];
@@ -38,18 +37,6 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
-        'two_factor_recovery_codes',
-        'two_factor_secret',
-    ];
-
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array<int, string>
-     */
-    protected $appends = [
-        'profile_photo_url',
     ];
 
     /**
@@ -60,8 +47,34 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    
+
+    // Returns user's profile
+    public function profile(){
+        return $this->hasOne(Profile::class);
+    }
+
+    // Returns all user's roles
+    public function roles(){
+        return $this->belongsToMany(Role::class);
+    }
+
+    // Returns all comments that this user owns
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
+
+    // Returns all likes that this user owns
+    public function likes(){
+        return $this->hasMany(Like::class);
+    }
+
+    // Returns all repost that this user owns
+    public function reposts(){
+        return $this->hasMany(Repost::class);
     }
 }
