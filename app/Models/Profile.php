@@ -32,4 +32,19 @@ class Profile extends Model
     public function mentions(){
         return $this->hasMany(Mention::class);
     }
+
+    // Returns all followers that this profile owns 
+    public function followers(){
+        return $this->belongsToMany(User::class, 'follows');
+    }
+
+    // Returns all posts that this profile owns
+    public function posts(){
+        return $this->hasMany(Post::class);
+    }
+
+    // Returns all reports that this profile owns
+    public function reports(){
+        return $this->morphMany(Report::class, 'reportable');
+    }
 }

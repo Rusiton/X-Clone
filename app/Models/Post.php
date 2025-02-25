@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'text',
         'profile_id',
@@ -45,5 +48,10 @@ class Post extends Model
     // Returns all mentions that this post owns
     public function mentions(){
         return $this->hasMany(Mention::class);
+    }
+
+    // Returns all reports that this post owns
+    public function reports(){
+        return $this->morphMany(Report::class, 'reportable');
     }
 }

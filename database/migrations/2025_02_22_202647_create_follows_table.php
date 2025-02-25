@@ -24,7 +24,8 @@ return new class extends Migration
         
             $table->primary(['user_id', 'profile_id']);
             
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
     }
 

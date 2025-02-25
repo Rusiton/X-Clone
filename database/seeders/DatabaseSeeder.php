@@ -2,9 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Profile;
+use App\Models\Report;
+use App\Models\Tag;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,11 +17,29 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        Storage::deleteDirectory('posts');
+        Storage::makeDirectory('posts');   
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        Profile::factory(50)->create();
+
+        $this->call(FollowSeeder::class);
+
+        $this->call(PermissionRoleSeeder::class);
+
+        $this->call(RoleUserSeeder::class);
+
+        Tag::factory(15)->create();
+
+        $this->call(PostSeeder::class);
+
+        $this->call(LikeSeeder::class);
+
+        $this->call(CommentSeeder::class);
+
+        $this->call(RepostSeeder::class);
+
+        $this->call(MentionSeeder::class);
+
+        Report::factory(15)->create();
     }
 }
