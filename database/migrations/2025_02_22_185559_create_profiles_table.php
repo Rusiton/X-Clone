@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
 
-            $table->string('username', 45)->unique();
+            $table->string('username', 45)->unique()->nullable();
             $table->text('biography', 1000)->nullable();
-            $table->boolean('private');
+            $table->boolean('private')->default(false);
 
             $table->foreignId('user_id')
                 ->unique()

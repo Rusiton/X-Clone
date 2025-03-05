@@ -13,6 +13,7 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script src="https://kit.fontawesome.com/1873d54f79.js" crossorigin="anonymous"></script>
 
         <!-- Styles -->
         @livewireStyles
@@ -39,6 +40,8 @@
         </div>
 
         @stack('modals')
+
+        @stack('scripts')
 
         @livewireScripts
     </body>
