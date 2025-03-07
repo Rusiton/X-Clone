@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
 
-            $table->text('text', 1000);
+            $table->text('text', 300);
             
             $table->foreignId('profile_id')
                 ->constrained()

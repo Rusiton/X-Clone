@@ -6,6 +6,8 @@
     --color-3: #D3D3D3;
     --color-4: #343434;
     --color-5: #EEEEEE;
+    --color-6: #ff5b5b;
+    --color-7: #000000;
 }
 
 @tailwind base;

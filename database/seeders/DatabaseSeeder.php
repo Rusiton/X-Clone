@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\Profile;
 use App\Models\Report;
 use App\Models\Tag;
 use Illuminate\Database\Seeder;
@@ -18,9 +17,12 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         Storage::deleteDirectory('posts');
-        Storage::makeDirectory('posts');   
+        Storage::deleteDirectory('profile_pictures');
 
-        Profile::factory(50)->create();
+        Storage::makeDirectory('posts');
+        Storage::makeDirectory('profile_pictures');
+
+        $this->call(ProfileSeeder::class);
 
         $this->call(FollowSeeder::class);
 

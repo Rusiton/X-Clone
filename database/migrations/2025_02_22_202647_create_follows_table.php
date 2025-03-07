@@ -12,6 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('follows', function (Blueprint $table) {
+            $table->id();
+
             $table->foreignId('user_id')
                 ->constrained()
                 ->cascadeOnUpdate()
@@ -21,8 +23,6 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-        
-            $table->primary(['user_id', 'profile_id']);
             
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();

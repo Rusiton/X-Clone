@@ -12,6 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('mentions', function (Blueprint $table) {
+            $table->id();
+
             $table->foreignId('user_id')
                 ->constrained()
                 ->cascadeOnUpdate();
@@ -24,8 +26,6 @@ return new class extends Migration
             $table->foreignId('profile_id')
                 ->constrained()
                 ->cascadeOnUpdate();
-
-            $table->primary(['user_id', 'post_id', 'profile_id']);
             
             $table->timestamps();
         });

@@ -19,14 +19,15 @@ class PostSeeder extends Seeder
 
         Post::all()->each(function ($post) {
             $tags = Tag::all()->random(3);
-
-            // Picture::create([
-            //     'pictureable_id' => $post->id,
-            //     'pictureable_type' => 'App\Models\Post',
-            //     'url' => 'posts/' . fake()->image('public/storage/posts', 640, 480, null, false),
-            // ]);
-
             $post->tags()->attach($tags);
+
+            if(rand(0, 3) === 1){
+                Picture::create([
+                    'pictureable_id' => $post->id,
+                    'pictureable_type' => 'App\Models\Post',
+                    'url' => 'posts/' . fake()->image('public/storage/posts', 640, 480, null, false),
+                ]);
+            }
         });
     }
 }

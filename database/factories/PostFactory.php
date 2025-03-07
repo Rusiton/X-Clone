@@ -20,7 +20,7 @@ class PostFactory extends Factory
     public function definition(): array
     {
         return [
-            'text' => fake()->text(1000),
+            'text' => fake()->text(300),
             'profile_id' => Profile::all()->random(),
         ];
     }
