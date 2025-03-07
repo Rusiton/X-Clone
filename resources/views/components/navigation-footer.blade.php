@@ -1,4 +1,6 @@
-@props(['user' => null])
+@php
+    $user = Auth::user();
+@endphp
 
 <div class="w-full h-20 px-4 bg-color-1 border-t-2 border-color-5 absolute bottom-0 z-10 flex justify-between items-center">
 

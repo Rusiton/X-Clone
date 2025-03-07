@@ -16,6 +16,7 @@ class ShowPosts extends Component
     public $header_selection = 'latest';
     public $posts;
 
+    public $already_reported;
     public $report_open = false;
     public $report_post;
 
@@ -31,7 +32,21 @@ class ShowPosts extends Component
 
     #[On('openReportModal')]
     public function openReportModal(Post $post){
+        if(!$this->user) return redirect()->route('login');
+
         $this->report_post = $post;
+
+        if(Report::where('user_id', $this->user->id)
+            ->where('reportable_id', $this->report_post->id)
+            ->where('reportable_type', 'App\Models\Post')
+            ->exists()
+        ){
+            $this->already_reported = true;
+        }
+        else{
+            $this->already_reported = false;
+        }
+
         $this->report_open = true;
     }
 
@@ -40,7 +55,7 @@ class ShowPosts extends Component
     public function reported(){
         if(!$this->user) return redirect()->route('login');
 
-        $this->validate();
+        $this->validateOnly('report_reason');
 
         Report::create([
             'user_id' => $this->user->id,
@@ -49,8 +64,7 @@ class ShowPosts extends Component
             'reason' => $this->report_reason,
         ]);
 
-        $this->report_post = null;
-        $this->report_open = false;
+        $this->reset(['report_open', 'report_post', 'report_reason']);
     }
 
 

@@ -10,7 +10,7 @@
     </div>
 
     <div class="pl-2 flex-1">
-        <div class="flex relative" x-data="{ open: false }" >
+        <div class="flex relative" x-data="{ open: false }">
             <a href="{{ route('profile', ['user' => $post->profile->user->name]) }}" class="flex gap-1">
                 <h2>
                     {{ strlen($post->profile->username) >= 15 ? substr($post->profile->username, 0, 15) . '...' : $post->profile->username }}
@@ -60,7 +60,7 @@
             @endif
         </div>
 
-        <ul class="mt-2 flex gap-6 font-bold select-none">
+        <ul class="w-full mt-2 flex gap-6 font-bold select-none">
             <li class="cursor-pointer {{ $this->userHasLike($post) ? 'text-color-6' : 'text-black' }}"
                 x-on:click="user && toggleLike($el), $wire.liked({{ $post->id }})">
                 <i class="fa-solid fa-heart fa-lg"></i>

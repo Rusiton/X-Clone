@@ -4,6 +4,6 @@
 
         @livewire('show-posts')
 
-        <x-navigation-footer :user="$user" />
+        <x-navigation-footer />
     </div>
 </x-app-layout>
