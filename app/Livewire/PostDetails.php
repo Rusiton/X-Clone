@@ -2,11 +2,13 @@
 
 namespace App\Livewire;
 
-use App\Models\Comment;
-use App\Models\Like;
-use App\Models\Post as ModelsPost;
-use App\Models\Report;
-use App\Models\Repost;
+use App\Livewire\Forms\Comment;
+use App\Livewire\Forms\Like;
+use App\Livewire\Forms\Report;
+use App\Livewire\Forms\Repost;
+
+use App\Models\Post;
+
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -16,138 +18,58 @@ class PostDetails extends Component
     public $user;
     public $post;
 
-    public $already_reported;
-    public $report_open = false;
-    public $report_post;
-
-    #[Validate('required|min:15|max:300')]
-    public $report_reason;
-
-    #[Validate('required|max:300')]
-    public $comment;
+    public Report $report;
+    public Like $like;
+    public Repost $repost;
+    public Comment $comment;
 
 
 
-    public function openReportModal(ModelsPost $post){
+    public function openReportModal($reportable_id, $model){
         if(!$this->user) return redirect()->route('login');
-
-        $this->report_post = $post;
-
-        if(Report::where('user_id', $this->user->id)
-                ->where('reportable_id', $this->report_post->id)
-                ->where('reportable_type', 'App\Models\Post')
-                ->exists()
-        ){
-            $this->already_reported = true;
-        }
-
-        $this->report_open = true;
+        $this->report->openReportModal($reportable_id, $model);
     }
 
 
 
     public function reported(){
         if(!$this->user) return redirect()->route('login');
-
-        if($this->already_reported) return;
-
-        $this->validateOnly('report_reason');
-
-        Report::create([
-            'user_id' => $this->user->id,
-            'reportable_type' => 'App\Models\Post',
-            'reportable_id' => $this->report_post->id,
-            'reason' => $this->report_reason,
-        ]);
-
-        $this->reset(['report_open', 'report_post', 'report_reason']);
+        $this->report->report();
     }
 
 
 
-    public function liked(ModelsPost $post){
+    public function userHasLike(Post $post){
+        return $this->like->userHasLike($post, $this->user);
+    }
+
+
+
+    public function liked(Post $post){
         if(!$this->user) return redirect()->route('login');
-
-        $like = Like::where('user_id', '=', $this->user->id)
-                    ->where('post_id', '=', $post->id)
-                    ->first();
-        
-        if(!$like){
-            Like::create([
-                'user_id' => $this->user->id,
-                'post_id' => $post->id,
-            ]);
-
-            return;
-        }
-
-        $like->delete();
+        $this->like->like($post, $this->user);
     }
 
 
 
-    public function reposted(ModelsPost $post){
+    public function reposted(Post $post){
         if(!$this->user) return redirect()->route('login');
-
-        $repost = Repost::where('user_id', '=', $this->user->id)
-                    ->where('post_id', '=', $post->id)
-                    ->first();
-
-        if(!$repost){
-            Repost::create([
-                'user_id' => $this->user->id,
-                'post_id' => $post->id,
-            ]);
-
-            return;
-        }
-
-        $repost->delete();
+        $this->repost->repost($post, $this->user);
     }
 
 
 
-    public function userHasLike(ModelsPost $post){
-        if(!$this->user) return false;
-
-        foreach($this->user->likes as $like){
-            if($like->post_id === $post->id){
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-
-
-    public function userHasRepost(ModelsPost $post){
-        if(!$this->user) return false;
-
-        foreach($this->user->reposts as $repost){
-            if($repost->post_id === $post->id){
-                return true;
-            }
-        }
-
-        return false;
+    public function userHasRepost(Post $post){
+        return $this->repost->userHasRepost($post, $this->user);
     }
 
 
 
     public function addComment(){
-        if(!$this->user) return;
-
-        $this->validateOnly('comment');
-
-        Comment::create([
-            'user_id' => $this->user->id,
-            'post_id' => $this->post->id,
-            'text' => $this->comment,
-        ]);
-
-        $this->reset('comment');
+        if(!$this->user) return redirect()->route('login');
+        $this->comment->comment($this->post, $this->user);
     }
+
 
     
     public function render()

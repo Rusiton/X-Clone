@@ -1,6 +1,10 @@
 <div x-data="{ user: '{{ $user ? true : false }}' }" class="pb-20 overflow-y-scroll">
     
-    <x-report-modal :post="$report_post" :already_reported="$already_reported" />
+    <x-report-modal 
+        :reportable="$report->reportable" 
+        :reportable_model="$report->reportable_model" 
+        :already_reported="$report->already_reported" 
+    />
 
     <div class="w-full p-4 border-b-2 border-color-5 flex flex-wrap">
     
@@ -36,7 +40,7 @@
                     x-show="open"
                     x-on:click.outside="open = false">
                     <button class="px-4 py-2 cursor-pointer hover:bg-color-5 transition" 
-                        wire:click="openReportModal({{ $post }})"
+                        wire:click="openReportModal({{ $post->id }}, 'Post')"
                         wire:loading.remove
                         wire:target="openReportModal">
                         Report
@@ -103,13 +107,13 @@
                     <x-textarea 
                         class="w-full h-24 bg-color-5 resize-none"
                         placeholder="Add a comment..." 
-                        wire:model="comment"
+                        wire:model.live="comment.comment"
                         x-model="comment"
                     />
 
                     <div class="flex">
                         <div class="flex-1 pr-2">
-                            <x-input-error for="comment"/>
+                            <x-input-error for="comment.comment"/>
                         </div>
 
                         <button 

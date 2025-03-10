@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
-use App\Models\Like;
+use App\Livewire\Forms\Like;
+use App\Livewire\Forms\Repost;
 use App\Models\Post as ModelsPost;
-use App\Models\Repost;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -13,83 +13,43 @@ class Post extends Component
     public $post;
     public $user;
 
+    public Like $like;
+    public Repost $repost;
 
 
-    public function openReportModal(ModelsPost $post){
-        $this->dispatch('openReportModal', post: $post);
+
+    public function openReportModal($reportable_id, $model){
+        $this->dispatch('openReportModal', reportable_id: $reportable_id, model: $model);
+    }
+
+
+
+    public function userHasLike(ModelsPost $post){
+        return $this->like->userHasLike($post, $this->user);
     }
 
 
 
     public function liked(ModelsPost $post){
         if(!$this->user) return redirect()->route('login');
-
-        $like = Like::where('user_id', '=', $this->user->id)
-                    ->where('post_id', '=', $post->id)
-                    ->first();
-        
-        if(!$like){
-            Like::create([
-                'user_id' => $this->user->id,
-                'post_id' => $post->id,
-            ]);
-
-            return;
-        }
-
-        $like->delete();
+        $this->like->like($post, $this->user);
     }
 
 
 
     public function reposted(ModelsPost $post){
         if(!$this->user) return redirect()->route('login');
-
-        $repost = Repost::where('user_id', '=', $this->user->id)
-                    ->where('post_id', '=', $post->id)
-                    ->first();
-
-        if(!$repost){
-            Repost::create([
-                'user_id' => $this->user->id,
-                'post_id' => $post->id,
-            ]);
-
-            return;
-        }
-
-        $repost->delete();
-    }
-
-
-
-    public function userHasLike(ModelsPost $post){
-        if(!$this->user) return false;
-
-        foreach($this->user->likes as $like){
-            if($like->post_id === $post->id){
-                return true;
-            }
-        }
-
-        return false;
+        $this->repost->repost($post, $this->user);
     }
 
 
 
     public function userHasRepost(ModelsPost $post){
-        if(!$this->user) return false;
-
-        foreach($this->user->reposts as $repost){
-            if($repost->post_id === $post->id){
-                return true;
-            }
-        }
-
-        return false;
+        return $this->repost->userHasRepost($post, $this->user);
     }
     
 
+    
     public function render()
     {
         $this->user = Auth::user();

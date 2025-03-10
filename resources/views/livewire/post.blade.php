@@ -34,7 +34,7 @@
                 x-show="open"
                 x-on:click.outside="open = false">
                 <button class="px-4 py-2 cursor-pointer hover:bg-color-5 transition" 
-                    wire:click="openReportModal({{ $post }})"
+                    wire:click="openReportModal({{ $post->id }}, 'Post')"
                     wire:loading.remove
                     wire:target="openReportModal">
                     Report

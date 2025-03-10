@@ -2,8 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Forms\Report;
+use App\Models\Comment;
 use App\Models\Post;
-use App\Models\Report;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
@@ -16,12 +17,7 @@ class ShowPosts extends Component
     public $header_selection = 'latest';
     public $posts;
 
-    public $already_reported;
-    public $report_open = false;
-    public $report_post;
-
-    #[Validate('required|min:15|max:300')]
-    public $report_reason;
+    public Report $report;
 
 
 
@@ -31,40 +27,16 @@ class ShowPosts extends Component
 
 
     #[On('openReportModal')]
-    public function openReportModal(Post $post){
+    public function openReportModal($reportable_id){
         if(!$this->user) return redirect()->route('login');
-
-        $this->report_post = $post;
-
-        if(Report::where('user_id', $this->user->id)
-            ->where('reportable_id', $this->report_post->id)
-            ->where('reportable_type', 'App\Models\Post')
-            ->exists()
-        ){
-            $this->already_reported = true;
-        }
-        else{
-            $this->already_reported = false;
-        }
-
-        $this->report_open = true;
+        $this->report->openReportModal($reportable_id, 'Post');
     }
 
 
 
     public function reported(){
         if(!$this->user) return redirect()->route('login');
-
-        $this->validateOnly('report_reason');
-
-        Report::create([
-            'user_id' => $this->user->id,
-            'reportable_type' => 'App\Models\Post',
-            'reportable_id' => $this->report_post->id,
-            'reason' => $this->report_reason,
-        ]);
-
-        $this->reset(['report_open', 'report_post', 'report_reason']);
+        $this->report->report();
     }
 
 

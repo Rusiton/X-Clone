@@ -1,7 +1,11 @@
 <div class="flex-1 pb-20 flex flex-col overflow-hidden z-0" 
     x-data="{ selected: @entangle('header_selection'), user: '{{ $user ? true : false }}' }">
 
-    <x-report-modal :post="$report_post" :already_reported="$already_reported" />
+    <x-report-modal 
+        :reportable="$report->reportable" 
+        :reportable_model="$report->reportable_model" 
+        :already_reported="$report->already_reported" 
+    />
 
     <div class="flex border-b-2 border-color-5">
         

@@ -11,8 +11,8 @@
         </a>
     </div>
 
-    <div class="pl-2 flex-1">
-        <div class="flex relative" x-data="{ open: false }">
+    <div class="pl-2 flex-1" x-data="{ open: false }">
+        <div class="flex relative">
             <a href="{{ route('profile', ['user' => $comment->user->name]) }}" class="flex gap-1">
                 <h2>
                     {{ strlen($comment->user->profile->username) >= 18 ? substr($comment->user->profile->username, 0, 18) . '...' : $comment->user->profile->username }}
@@ -22,6 +22,33 @@
                     {{ strlen($comment->user->name) >= 18 ? '@' . substr($comment->user->name, 0, 18) . '...' : '@' . $comment->user->name }}
                 </span>
             </a>
+
+            <div class="flex items-center gap-2 absolute right-0 top-0">
+                <span class="text-xs">
+                    {{ $comment->created_at->diffForHumans(null, true, true) }}
+                </span>
+                <span class="cursor-pointer" x-on:click="open = !open">
+                    <i class="fa-solid fa-ellipsis"></i>
+                </span>
+            </div>
+
+            <div class="shadow-lg bg-color-1 hover:bg-color-5 absolute right-4 top-0 z-10"
+                x-show="open"
+                x-on:click.outside="open = false">
+                <button class="px-4 py-2 cursor-pointer hover:bg-color-5 transition" 
+                    wire:click="openReportModal({{ $comment->id }}, 'Comment')"
+                    wire:loading.remove
+                    wire:target="openReportModal">
+                    Report
+                </button>
+
+                <button class="px-4 py-2 bg-color-5"
+                    wire:loading
+                    wire:target="openReportModal">
+                    <i class="fa-solid fa-circle-notch fa-spin"></i>
+                </button>
+            </div>
+
         </div>
 
         <div>
