@@ -124,6 +124,17 @@
                         </button>
                     </div>
                 </div>
+            @else
+
+                <div class="w-full">
+                    <div class="w-full py-2 flex justify-center">
+                        <i class="fa-solid fa-lock fa-2x text-color-2"></i>
+                    </div>
+                    <p class="text-center">
+                        <a class="text-color-2 underline" href="{{ route('login') }}">Sign In</a> to make posts, comments and much more.
+                    </p>
+                </div>
+
             @endif
         </div>
 

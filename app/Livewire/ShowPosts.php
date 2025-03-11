@@ -7,6 +7,7 @@ use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -14,7 +15,8 @@ class ShowPosts extends Component
 {
     public $user;
     
-    public $header_selection = 'latest';
+    #[Url(as: 'h')]
+    public ?string $header_selection = 'latest';
     public $posts;
 
     public Report $report;
@@ -23,6 +25,7 @@ class ShowPosts extends Component
 
     public function toggleHeaderSelection($selection){
         $this->header_selection = $selection;
+        $this->getPostsSelection();
     }
 
 
@@ -41,30 +44,39 @@ class ShowPosts extends Component
 
 
 
-    public function render(){
-        $this->user = Auth::user();
+    public function getFollowing(){
+        $posts = [];
 
-        switch ($this->header_selection) {
-            case 'latest':
-                $this->posts = Post::all()->sortByDesc('id');
-                break;
+        foreach($this->user->following as $profile) $posts[] = $profile->posts;
+        return collect($posts)->collapse();
+    }
 
-            case 'following':
-                $this->posts = [];
 
-                foreach($this->user->following as $profile){
-                    Post::where('profile_id', $profile->id)->latest()->each(function ($post) {
-                        array_push($this->posts, $post);
-                    }); 
-                }
 
-                break;
-            
-            default:
-                $this->posts = null;
-                break;
+    public function getPostsSelection(){
+        $this->reset('posts');
+
+        if($this->header_selection === 'latest'){
+            $this->posts = Post::latest()->get();
+            return;
         }
 
+        if($this->header_selection === 'following'){
+            if(!$this->user) return;
+            else $this->posts = $this->getFollowing(); return;
+        }
+    }
+
+
+
+    public function mount(){
+        $this->user = Auth::user();
+        $this->getPostsSelection();
+    }
+
+
+
+    public function render(){
         return view('livewire.show-posts');
     }
 }

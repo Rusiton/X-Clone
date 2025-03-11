@@ -25,9 +25,28 @@
 
     <div class="overflow-y-scroll" wire:loading.remove wire:target="header_selection">
 
-        @foreach ($posts as $post)
-            @livewire('post', ['post' => $post], key($post->id))
-        @endforeach
+        @if ($posts)
+
+            @foreach ($posts as $post)
+                @livewire('post', ['post' => $post], key($post->id))
+            @endforeach
+
+        @else
+
+            <div class="w-full p-4">
+                <div class="w-full py-2 flex justify-center">
+                    <i class="fa-solid fa-lock fa-2x text-color-2"></i>
+                </div>
+                <p class="text-center">
+                    <a class="text-color-2 underline" href="{{ route('login') }}">Sign In</a> to follow others, see their posts and much more.
+                </p>
+                <div class="w-full mt-16 flex justify-center">
+                    <a class="w-48 px-4 py-3 bg-color-2 rounded-full flex justify-center items-center text-color-1 font-bold" href="{{ route('login') }}">Sign In</a>
+                </div>
+            </div>
+
+        @endif
+        
 
     </div>
 

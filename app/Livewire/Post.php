@@ -25,6 +25,7 @@ class Post extends Component
 
 
     public function userHasLike(ModelsPost $post){
+        if(!$this->user) return false;
         return $this->like->userHasLike($post, $this->user);
     }
 
@@ -45,6 +46,7 @@ class Post extends Component
 
 
     public function userHasRepost(ModelsPost $post){
+        if(!$this->user) return false;
         return $this->repost->userHasRepost($post, $this->user);
     }
     

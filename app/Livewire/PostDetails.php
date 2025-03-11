@@ -40,6 +40,7 @@ class PostDetails extends Component
 
 
     public function userHasLike(Post $post){
+        if(!$this->user) return false;
         return $this->like->userHasLike($post, $this->user);
     }
 
@@ -60,6 +61,7 @@ class PostDetails extends Component
 
 
     public function userHasRepost(Post $post){
+        if(!$this->user) return false;
         return $this->repost->userHasRepost($post, $this->user);
     }
 
@@ -71,11 +73,15 @@ class PostDetails extends Component
     }
 
 
+
+    public function mount(){
+        $this->user = Auth::user();
+    }
+
+
     
     public function render()
     {
-        $this->user = Auth::user();
-
         return view('livewire.post-details');
     }
 }
