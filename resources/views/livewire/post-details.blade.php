@@ -61,7 +61,11 @@
             </p>
 
             @if ($post->picture)
-                <img class="mt-2 w-full rounded-xl" src="{{ Storage::url($post->picture->url) }}">
+                <img class="mt-2 w-full border border-color-3 rounded-xl" src="{{ Storage::url($post->picture->url) }}">
+            @endif
+
+            @if ($post->tags)
+                <x-post-tags :tags="$post->tags" />
             @endif
         </div>
 
@@ -117,7 +121,7 @@
                         </div>
 
                         <button 
-                            class="px-4 py-1 border border-color-3 rounded-full bg-color-2 transition text-color-1 font-semibold float-right disabled:opacity-50"
+                            class="px-4 py-1 border border-color-3 rounded-full bg-color-2 transition text-color-1 font-semibold float-right enabled:hover:bg-color-1 enabled:hover:text-color-2 disabled:opacity-50"
                             wire:click="addComment()"
                             x-bind:disabled="comment.length > 0 ? false : true">
                             POST

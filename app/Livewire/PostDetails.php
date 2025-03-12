@@ -75,6 +75,7 @@ class PostDetails extends Component
 
 
     public function mount(){
+        if(!$this->post) return redirect()->route('home');
         $this->user = Auth::user();
     }
 
