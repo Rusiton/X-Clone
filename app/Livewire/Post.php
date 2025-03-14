@@ -6,6 +6,7 @@ use App\Livewire\Forms\Like;
 use App\Livewire\Forms\Repost;
 use App\Models\Post as ModelsPost;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Post extends Component
@@ -23,6 +24,11 @@ class Post extends Component
     }
 
 
+    public function openDeleteModal(ModelsPost $post){
+        $this->dispatch('openDeleteModal', post: $post);
+    }
+
+
 
     public function userHasLike(ModelsPost $post){
         if(!$this->user) return false;
@@ -31,16 +37,9 @@ class Post extends Component
 
 
 
-    public function liked(ModelsPost $post){
+    public function liked($post_id){
         if(!$this->user) return redirect()->route('login');
-        $this->like->like($post, $this->user);
-    }
-
-
-
-    public function reposted(ModelsPost $post){
-        if(!$this->user) return redirect()->route('login');
-        $this->repost->repost($post, $this->user);
+        $this->like->like($post_id, $this->user);
     }
 
 
@@ -49,13 +48,24 @@ class Post extends Component
         if(!$this->user) return false;
         return $this->repost->userHasRepost($post, $this->user);
     }
+
+
+
+    public function reposted($post_id){
+        if(!$this->user) return redirect()->route('login');
+        $this->repost->repost($post_id, $this->user);
+    }
+
+
+
+    public function mount(){
+        $this->user = Auth::user();
+    }
     
 
     
     public function render()
     {
-        $this->user = Auth::user();
-
         return view('livewire.post');
     }
 }

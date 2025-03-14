@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pictures', function (Blueprint $table) {
+            $table->id();
+
             $table->morphs('pictureable');
             $table->string('url')->unique();
-
-            $table->primary(['pictureable_id', 'pictureable_type']);
 
             $table->timestamps();
         });

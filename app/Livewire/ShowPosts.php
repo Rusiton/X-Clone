@@ -2,13 +2,12 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Forms\Delete;
 use App\Livewire\Forms\Report;
-use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
-use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 class ShowPosts extends Component
@@ -20,6 +19,7 @@ class ShowPosts extends Component
     public $posts;
 
     public Report $report;
+    public Delete $delete;
 
 
 
@@ -40,6 +40,15 @@ class ShowPosts extends Component
     public function reported(){
         if(!$this->user) return redirect()->route('login');
         $this->report->report();
+    }
+
+
+
+    #[On('deletePost')]
+    public function deleted($post_id){
+        if(!$this->user) return redirect()->route('login');
+        $this->delete->delete($post_id);
+        $this->getPostsSelection();
     }
 
 

@@ -11,11 +11,11 @@ use Livewire\Form;
 
 class Like extends Form
 {
-    public function like(Post $post, User $user){
-        $like = ModelsLike::where('user_id', '=', $user->id)->where('post_id', '=', $post->id)->first();
+    public function like($post_id, User $user){
+        $like = ModelsLike::where('user_id', '=', $user->id)->where('post_id', $post_id)->first();
         
         if(!$like){
-            ModelsLike::create(['user_id' => $user->id, 'post_id' => $post->id]);
+            ModelsLike::create(['user_id' => $user->id, 'post_id' => $post_id]);
             return;
         }
 

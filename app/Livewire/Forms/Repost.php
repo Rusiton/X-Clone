@@ -10,11 +10,11 @@ use Livewire\Form;
 
 class Repost extends Form
 {
-    public function repost(Post $post, User $user){
-        $repost = ModelsRepost::where('user_id', '=', $user->id)->where('post_id', '=', $post->id)->first();
+    public function repost($post_id, User $user){
+        $repost = ModelsRepost::where('user_id', '=', $user->id)->where('post_id', '=', $post_id)->first();
 
         if(!$repost){
-            ModelsRepost::create(['user_id' => $user->id, 'post_id' => $post->id]);
+            ModelsRepost::create(['user_id' => $user->id, 'post_id' => $post_id]);
             return;
         }
 

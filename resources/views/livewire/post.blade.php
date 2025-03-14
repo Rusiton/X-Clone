@@ -1,6 +1,5 @@
 <div 
-    class="w-full px-4 py-2 border-b-2 border-color-5 flex hover:bg-color-5 transition" 
-    x-on:click="handleClick(event.target, '{{ route('post', ['id' => $post->id]) }}')"
+    class="w-full px-4 py-2 border-b-2 border-color-5 flex hover:bg-color-5 transition"
     id="post_{{ $post->id }}">
     <div id="left_{{ $post->id }}">
         <a href="{{ route('profile', ['user' => $post->profile->user->name]) }}">
@@ -33,22 +32,32 @@
                 </span>
             </div>
 
-            <div class="shadow-lg bg-color-1 hover:bg-color-5 absolute right-4 top-0 z-10"
-                x-show="open"
-                x-on:click.outside="open = false">
-                <button class="px-4 py-2 cursor-pointer hover:bg-color-5 transition" 
-                    wire:click="openReportModal({{ $post->id }}, 'Post')"
+            @if ($user)
+
+                <div class="w-28 shadow-lg bg-color-1 flex flex-wrap absolute right-4 top-0 z-10"
+                    x-show="open"
+                    x-on:click.outside="open = false"
                     wire:loading.remove
                     wire:target="openReportModal">
-                    Report
-                </button>
 
-                <button class="px-4 py-2 bg-color-5"
-                    wire:loading
-                    wire:target="openReportModal">
-                    <i class="fa-solid fa-circle-notch fa-spin"></i>
-                </button>
-            </div>
+                    @if ($post->profile->user->id !== $user->id)
+                    <button class="w-full px-4 py-2 cursor-pointer hover:bg-color-5 transition" 
+                        wire:click="openReportModal({{ $post->id }}, 'Post')"
+                        x-on:click="open = false">
+                        Report
+                    </button>
+                    @endif
+                
+                    @if ($post->profile->user->id === $user->id)
+                        <button class="w-full px-4 py-2 cursor-pointer hover:bg-color-5 transition text-color-6"
+                            x-on:click="open = false, showConfirmButton({{ $post->id }})">
+                            Delete
+                        </button>    
+                    @endif    
+
+                </div>
+
+            @endif
         </div>
 
         <div>
@@ -73,26 +82,20 @@
         </div>
 
         <ul class="w-full mt-2 flex gap-6 font-bold select-none" id="interactions_{{ $post->id }}">
-            <li class="cursor-pointer {{ $this->userHasLike($post) ? 'text-color-6' : 'text-black' }}"
-                x-on:click="user && toggleLike($el), $wire.liked({{ $post->id }})">
-                <i class="fa-solid fa-heart fa-lg"></i>
+            <li class="cursor-pointer {{ $this->userHasLike($post) ? 'text-color-6' : 'text-black' }}" wire:click="liked({{ $post->id }})">
+                <i id="like_{{ $post->id }}" class="fa-solid fa-heart fa-lg"></i>
                 <span>{{ count($post->likes) }}</span>
             </li>
             <li class="hover:text-color-2">
                 <a href="{{ route('post', ['id' => $post->id]) }}">
-                    <i class="fa-solid fa-comment fa-lg"></i>
+                    <i id="comment_{{ $post->id }}" class="fa-solid fa-comment fa-lg"></i>
                     <span>{{ count($post->comments) }}</span>
                 </a>
             </li>
-            <li class="cursor-pointer {{ $this->userHasRepost($post) ? 'text-color-2' : '' }}"
-                x-on:click="user && toggleRepost($el), $wire.reposted({{ $post->id }})">
-                <i class="fa-solid fa-retweet fa-lg"></i>
+            <li class="cursor-pointer {{ $this->userHasRepost($post) ? 'text-color-2' : '' }}" wire:click="reposted({{ $post->id }})">
+                <i id="repost_{{ $post->id }}" class="fa-solid fa-retweet fa-lg"></i>
                 <span>{{ count($post->reposts) }}</span>
             </li>
         </ul>
     </div>
 </div>
-
-@push('scripts')
-    <script type="text/javascript" src="{{ asset('storage/js/posts/handlePostClick.js') }}"></script>
-@endpush

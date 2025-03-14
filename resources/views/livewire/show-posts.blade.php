@@ -23,7 +23,11 @@
 
     </div>
 
-    <div class="overflow-y-scroll" wire:loading.remove wire:target="header_selection">
+    <div 
+        class="overflow-y-scroll" 
+        wire:loading.remove 
+        wire:target="header_selection" 
+        x-on:click="handleClick(event.target)">
 
         @if ($posts)
 
@@ -63,5 +67,5 @@
 </div>
 
 @push('scripts')
-    <script type="text/javascript" src="{{ asset('storage/js/posts/postInteractionControl.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('storage/js/posts/handlePostClick.js') }}"></script>
 @endpush
