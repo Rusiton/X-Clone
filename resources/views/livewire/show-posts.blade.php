@@ -27,7 +27,7 @@
         class="overflow-y-scroll" 
         wire:loading.remove 
         wire:target="header_selection" 
-        x-on:click="handleClick(event.target)">
+        x-on:click="handleClick(event.target, user)">
 
         @if ($posts)
 

@@ -10,6 +10,7 @@ use App\Livewire\Forms\Repost;
 use App\Models\Post;
 
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -39,30 +40,32 @@ class PostDetails extends Component
 
 
 
-    public function userHasLike(Post $post){
+    public function userHasLike(){
         if(!$this->user) return false;
-        return $this->like->userHasLike($post, $this->user);
+        return $this->like->userHasLike($this->post, $this->user);
     }
 
 
 
-    public function liked(Post $post){
+    #[On('toggleLike')]
+    public function liked(){
         if(!$this->user) return redirect()->route('login');
-        $this->like->like($post, $this->user);
+        $this->like->like($this->post->id, $this->user);
     }
 
 
 
-    public function reposted(Post $post){
+    #[On('toggleRepost')]
+    public function reposted(){
         if(!$this->user) return redirect()->route('login');
-        $this->repost->repost($post, $this->user);
+        $this->repost->repost($this->post->id, $this->user);
     }
 
 
 
-    public function userHasRepost(Post $post){
+    public function userHasRepost(){
         if(!$this->user) return false;
-        return $this->repost->userHasRepost($post, $this->user);
+        return $this->repost->userHasRepost($this->post, $this->user);
     }
 
 

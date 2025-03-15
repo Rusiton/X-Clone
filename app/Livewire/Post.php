@@ -4,9 +4,7 @@ namespace App\Livewire;
 
 use App\Livewire\Forms\Like;
 use App\Livewire\Forms\Repost;
-use App\Models\Post as ModelsPost;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Post extends Component
@@ -19,41 +17,27 @@ class Post extends Component
 
 
 
-    public function openReportModal($reportable_id, $model){
-        $this->dispatch('openReportModal', reportable_id: $reportable_id, model: $model);
+    public function openReportModal(){
+        $this->dispatch('openReportModal', reportable_id: $this->post->id, model: 'post');
     }
 
 
-    public function openDeleteModal(ModelsPost $post){
-        $this->dispatch('openDeleteModal', post: $post);
+    public function openDeleteModal(){
+        $this->dispatch('openDeleteModal', post: $this->post);
     }
 
 
 
-    public function userHasLike(ModelsPost $post){
+    public function userHasLike(){
         if(!$this->user) return false;
-        return $this->like->userHasLike($post, $this->user);
+        return $this->like->userHasLike($this->post, $this->user);
     }
 
 
 
-    public function liked($post_id){
-        if(!$this->user) return redirect()->route('login');
-        $this->like->like($post_id, $this->user);
-    }
-
-
-
-    public function userHasRepost(ModelsPost $post){
+    public function userHasRepost(){
         if(!$this->user) return false;
-        return $this->repost->userHasRepost($post, $this->user);
-    }
-
-
-
-    public function reposted($post_id){
-        if(!$this->user) return redirect()->route('login');
-        $this->repost->repost($post_id, $this->user);
+        return $this->repost->userHasRepost($this->post, $this->user);
     }
 
 

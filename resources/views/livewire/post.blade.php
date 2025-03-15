@@ -27,41 +27,37 @@
                 <span class="text-xs">
                     {{ $post->created_at->diffForHumans(null, true, true) }}
                 </span>
-                <span class="cursor-pointer" x-on:click="open = !open">
-                    <i class="fa-solid fa-ellipsis"></i>
-                </span>
-            </div>
-
-            @if ($user)
-
-                <div class="w-28 shadow-lg bg-color-1 flex flex-wrap absolute right-4 top-0 z-10"
-                    x-show="open"
-                    x-on:click.outside="open = false"
-                    wire:loading.remove
-                    wire:target="openReportModal">
-
-                    @if ($post->profile->user->id !== $user->id)
-                    <button class="w-full px-4 py-2 cursor-pointer hover:bg-color-5 transition" 
-                        wire:click="openReportModal({{ $post->id }}, 'Post')"
-                        x-on:click="open = false">
-                        Report
-                    </button>
-                    @endif
                 
-                    @if ($post->profile->user->id === $user->id)
-                        <button class="w-full px-4 py-2 cursor-pointer hover:bg-color-5 transition text-color-6"
-                            x-on:click="open = false, showConfirmButton({{ $post->id }})">
-                            Delete
-                        </button>    
-                    @endif    
+                @if ($user)
+                    <span class="cursor-pointer" x-on:click="open = !open">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </span>
+                    
+                    <div class="w-28 shadow-lg bg-color-1 flex flex-wrap absolute right-4 top-0 z-10 transition-all overflow-hidden"
+                        x-bind:class="open ? 'max-h-screen' : 'max-h-0'"
+                        wire:loading.remove
+                        wire:target="openReportModal">
 
-                </div>
-
-            @endif
+                        @if ($post->profile->user->id !== $user->id)
+                            <button class="w-full px-4 py-2 cursor-pointer hover:bg-color-5 transition" 
+                                wire:click="openReportModal()"
+                                x-on:click="open = false">
+                                Report
+                            </button>
+                        @endif
+                        
+                        @if ($post->profile->user->id === $user->id)
+                            <button class="w-full px-4 py-2 cursor-pointer hover:bg-color-5 transition text-color-6"
+                                x-on:click="open = false, showConfirmButton({{ $post->id }})">
+                                Delete
+                            </button>    
+                        @endif    
+                    </div>
+                @endif
+            </div>
         </div>
 
         <div>
-            
             <a href="{{ route('post', ['id' => $post->id]) }}">
                 <p class="text-[14px] leading-[18px]">
                     {{ $post->text }}
@@ -82,17 +78,19 @@
         </div>
 
         <ul class="w-full mt-2 flex gap-6 font-bold select-none" id="interactions_{{ $post->id }}">
-            <li class="cursor-pointer {{ $this->userHasLike($post) ? 'text-color-6' : 'text-black' }}" wire:click="liked({{ $post->id }})">
+            <li class="cursor-pointer {{ $this->userHasLike() ? 'text-color-6' : 'text-black' }}">
                 <i id="like_{{ $post->id }}" class="fa-solid fa-heart fa-lg"></i>
                 <span>{{ count($post->likes) }}</span>
             </li>
+
             <li class="hover:text-color-2">
                 <a href="{{ route('post', ['id' => $post->id]) }}">
                     <i id="comment_{{ $post->id }}" class="fa-solid fa-comment fa-lg"></i>
                     <span>{{ count($post->comments) }}</span>
                 </a>
             </li>
-            <li class="cursor-pointer {{ $this->userHasRepost($post) ? 'text-color-2' : '' }}" wire:click="reposted({{ $post->id }})">
+            
+            <li class="cursor-pointer {{ $this->userHasRepost() ? 'text-color-2' : '' }}">
                 <i id="repost_{{ $post->id }}" class="fa-solid fa-retweet fa-lg"></i>
                 <span>{{ count($post->reposts) }}</span>
             </li>

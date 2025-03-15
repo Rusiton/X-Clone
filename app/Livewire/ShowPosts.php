@@ -2,6 +2,8 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Forms\Like;
+use App\Livewire\Forms\Repost;
 use App\Livewire\Forms\Delete;
 use App\Livewire\Forms\Report;
 use App\Models\Post;
@@ -18,6 +20,8 @@ class ShowPosts extends Component
     public ?string $header_selection = 'latest';
     public $posts;
 
+    public Like $like;
+    public Repost $repost;
     public Report $report;
     public Delete $delete;
 
@@ -27,6 +31,23 @@ class ShowPosts extends Component
         $this->header_selection = $selection;
         $this->getPostsSelection();
     }
+
+
+
+    #[On('like')]
+    public function liked($post_id){
+        if(!$this->user) return redirect()->route('login');
+        $this->like->like($post_id, $this->user);
+    }
+
+
+
+    #[On('repost')]
+    public function reposted($post_id){
+        if(!$this->user) return redirect()->route('login');
+        $this->repost->repost($post_id, $this->user);
+    }
+
 
 
     #[On('openReportModal')]
