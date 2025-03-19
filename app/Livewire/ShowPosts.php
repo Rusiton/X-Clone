@@ -75,6 +75,9 @@ class ShowPosts extends Component
 
 
     public function getFollowing(){
+        if(!$this->user) return null;
+        if(count($this->user->following) < 1) return null;
+
         $posts = [];
 
         foreach($this->user->following as $profile) $posts[] = $profile->posts;
@@ -92,8 +95,8 @@ class ShowPosts extends Component
         }
 
         if($this->header_selection === 'following'){
-            if(!$this->user) return;
-            else $this->posts = $this->getFollowing(); return;
+            $this->posts = $this->getFollowing();
+            return;
         }
     }
 

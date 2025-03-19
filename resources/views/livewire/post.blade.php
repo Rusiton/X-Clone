@@ -1,6 +1,7 @@
 <div 
     class="w-full px-4 py-2 border-b-2 border-color-5 flex hover:bg-color-5 transition"
     id="post_{{ $post->id }}">
+
     <div id="left_{{ $post->id }}">
         <a href="{{ route('profile', ['user' => $post->profile->user->name]) }}">
             @if ($post->profile->picture)
@@ -13,6 +14,7 @@
 
     <div class="pl-2 flex-1" id="content_{{ $post->id }}">
         <div class="flex relative" x-data="{ open: false }" id="header_{{ $post->id }}">
+
             <a href="{{ route('profile', ['user' => $post->profile->user->name]) }}" class="flex gap-1">
                 <h2>
                     {{ strlen($post->profile->username) >= 15 ? substr($post->profile->username, 0, 15) . '...' : $post->profile->username }}
@@ -24,11 +26,13 @@
             </a>
 
             <div class="flex items-center gap-2 absolute right-0 top-0">
+
                 <span class="text-xs">
                     {{ $post->created_at->diffForHumans(null, true, true) }}
                 </span>
                 
                 @if ($user)
+
                     <span class="cursor-pointer" x-on:click="open = !open">
                         <i class="fa-solid fa-ellipsis"></i>
                     </span>
@@ -52,15 +56,20 @@
                                 Delete
                             </button>    
                         @endif    
+                        
                     </div>
+
                 @endif
+
             </div>
+
         </div>
 
         <div>
+
             <a href="{{ route('post', ['id' => $post->id]) }}">
                 <p class="text-[14px] leading-[18px]">
-                    {{ $post->text }}
+                    {!! $this->getHighlightedSearchCharacters() !!}
                 </p>
             </a>
 
@@ -75,9 +84,11 @@
                     @endforeach
                 </div>
             @endif
+
         </div>
 
         <ul class="w-full mt-2 flex gap-6 font-bold select-none" id="interactions_{{ $post->id }}">
+
             <li class="cursor-pointer {{ $this->userHasLike() ? 'text-color-6' : 'text-black' }}">
                 <i id="like_{{ $post->id }}" class="fa-solid fa-heart fa-lg"></i>
                 <span>{{ count($post->likes) }}</span>
@@ -94,6 +105,7 @@
                 <i id="repost_{{ $post->id }}" class="fa-solid fa-retweet fa-lg"></i>
                 <span>{{ count($post->reposts) }}</span>
             </li>
+
         </ul>
     </div>
 </div>

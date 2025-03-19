@@ -10,6 +10,9 @@
             @case('Comment')
                 <h1>Reporting {{ $reportable ? $reportable->user->name : '' }}'s comment</h1>
                 @break
+            @case('Profile')
+                <h1>Reporting {{ $reportable ? $reportable->user->name : '' }}'s profile</h1>
+                @break
         @endswitch
     </x-slot>
 

@@ -38,6 +38,9 @@
         @else
 
             @if ($header_selection === 'following')    
+
+                @if (!$user)    
+
                 <div class="w-full p-4">
                     <div class="w-full py-2 flex justify-center">
                         <i class="fa-solid fa-lock fa-2x text-color-2"></i>
@@ -49,6 +52,14 @@
                         <a class="w-48 px-4 py-3 bg-color-2 rounded-full flex justify-center items-center text-color-1 font-bold" href="{{ route('login') }}">Sign In</a>
                     </div>
                 </div>
+                
+                @else
+
+                <div class="w-full p-4">
+                    {{-- Fill this --}}
+                </div>
+
+                @endif
             @endif
 
         @endif

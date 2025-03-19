@@ -4,6 +4,7 @@ namespace App\Livewire\Forms;
 
 use App\Models\Comment;
 use App\Models\Post;
+use App\Models\Profile;
 use App\Models\Report as ModelsReport;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
@@ -31,6 +32,11 @@ class Report extends Form
             case 'Comment':
                 $this->reportable = Comment::find($reportable_id);
                 break;
+
+            case 'Profile':
+                $this->reportable = Profile::find($reportable_id);
+                break;
+                
         }
 
         if(ModelsReport::where('user_id', Auth::user()->id)
