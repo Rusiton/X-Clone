@@ -8,16 +8,20 @@ use App\Livewire\Forms\Delete;
 use App\Livewire\Forms\Report;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 
 class ShowPosts extends Component
 {
+    public $route_name;
+
     public $user;
     
     #[Url(as: 'h')]
     public ?string $header_selection = 'latest';
+
     public $posts;
 
     public Like $like;
@@ -34,26 +38,23 @@ class ShowPosts extends Component
 
 
 
-    #[On('like')]
     public function liked($post_id){
         if(!$this->user) return redirect()->route('login');
-        $this->like->like($post_id, $this->user);
+        $this->like->like($post_id, $this->user->id);
     }
 
 
 
-    #[On('repost')]
     public function reposted($post_id){
         if(!$this->user) return redirect()->route('login');
-        $this->repost->repost($post_id, $this->user);
+        $this->repost->repost($post_id, $this->user->id);
     }
 
 
 
-    #[On('openReportModal')]
-    public function openReportModal($reportable_id){
+    public function openReportModal($reportable_id, $model){
         if(!$this->user) return redirect()->route('login');
-        $this->report->openReportModal($reportable_id, 'Post');
+        $this->report->openReportModal($reportable_id, $model);
     }
 
 
@@ -103,6 +104,7 @@ class ShowPosts extends Component
 
 
     public function mount(){
+        $this->route_name = Route::currentRouteName();
         $this->user = Auth::user();
         $this->getPostsSelection();
     }

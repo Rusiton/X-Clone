@@ -24,7 +24,7 @@ class Report extends Form
 
 
     public function openReportModal($reportable_id, $model){
-        switch ($model) {
+        switch (ucfirst($model)) {
             case 'Post':
                 $this->reportable = Post::find($reportable_id);
                 break;

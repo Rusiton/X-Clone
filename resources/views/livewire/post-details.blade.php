@@ -150,7 +150,7 @@
         </div>
 
         @foreach ($post->comments->reverse() as $comment)
-            <x-comment :comment="$comment" />
+            <x-comment :comment="$comment" :user="$user" />
         @endforeach
     </div>
 

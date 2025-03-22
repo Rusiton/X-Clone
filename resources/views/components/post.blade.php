@@ -1,9 +1,14 @@
-<div 
-    class="w-full px-4 py-2 border-b-2 border-color-5 flex hover:bg-color-5 transition"
-    id="post_{{ $post->id }}">
+@props([
+    'post', 
+    'search_chars' => '',
+    'user' => false,
+    'route_name' => 'home'
+])
 
-    <div id="left_{{ $post->id }}">
-        <a href="{{ route('profile', ['user' => $post->profile->user->name]) }}">
+<div class="w-full px-4 py-2 border-b-2 border-color-5 flex hover:bg-color-5 transition" x-data="{ open: false, user: {{ $user ? 'true' : 'false' }} }">
+
+    <div class="flex flex-col">
+        <a class="flex-1" href="{{ route('profile', ['user' => $post->profile->user->name]) }}">
             @if ($post->profile->picture)
                 <img class="h-12 rounded-full" src="{{ Storage::url($post->profile->picture->url) }}">    
             @else
@@ -12,8 +17,8 @@
         </a>
     </div>
 
-    <div class="pl-2 flex-1" id="content_{{ $post->id }}">
-        <div class="flex relative" x-data="{ open: false }" id="header_{{ $post->id }}">
+    <div class="pl-2 flex-1">
+        <div class="flex relative">
 
             <a href="{{ route('profile', ['user' => $post->profile->user->name]) }}" class="flex gap-1">
                 <h2>
@@ -44,7 +49,7 @@
 
                         @if ($post->profile->user->id !== $user->id)
                             <button class="w-full px-4 py-2 cursor-pointer hover:bg-color-5 transition" 
-                                wire:click="openReportModal()"
+                                wire:click="openReportModal({{ $post->id }}, 'Post')"
                                 x-on:click="open = false">
                                 Report
                             </button>
@@ -67,9 +72,13 @@
 
         <div>
 
-            <a href="{{ route('post', ['id' => $post->id]) }}">
+            <a href="{{ route('post', ['id' => $post->id, 'b' => $route_name]) }}">
                 <p class="text-[14px] leading-[18px]">
-                    {!! $this->getHighlightedSearchCharacters() !!}
+                    {!! str_replace(
+                        $search_chars,
+                        "<span class='font-bold'>$search_chars</span>",
+                        $post->text
+                    ) !!}
                 </p>
             </a>
 
@@ -78,7 +87,7 @@
             @endif
 
             @if ($post->tags)
-                <div class="w-full pt-2 flex flex-wrap gap-x-2" id="tags_{{ $post->id }}">
+                <div class="w-full pt-2 flex flex-wrap gap-x-2">
                     @foreach ($post->tags as $tag)
                         <x-post-tag :tag="$tag" class="text-sm" />
                     @endforeach
@@ -87,22 +96,22 @@
 
         </div>
 
-        <ul class="w-full mt-2 flex gap-6 font-bold select-none" id="interactions_{{ $post->id }}">
+        <ul class="w-full mt-2 flex gap-6 font-bold select-none">
 
-            <li class="cursor-pointer {{ $this->userHasLike() ? 'text-color-6' : 'text-black' }}">
-                <i id="like_{{ $post->id }}" class="fa-solid fa-heart fa-lg"></i>
+            <li class="cursor-pointer {{ $user && $this->like->userHasLike($post, $user) ? 'text-color-6' : 'text-black' }}">
+                <i class="fa-solid fa-heart fa-lg" x-on:click="user && toggleLike(event.target), $wire.liked({{ $post->id }})"></i>
                 <span>{{ count($post->likes) }}</span>
             </li>
 
             <li class="hover:text-color-2">
                 <a href="{{ route('post', ['id' => $post->id]) }}">
-                    <i id="comment_{{ $post->id }}" class="fa-solid fa-comment fa-lg"></i>
+                    <i class="fa-solid fa-comment fa-lg"></i>
                     <span>{{ count($post->comments) }}</span>
                 </a>
             </li>
             
-            <li class="cursor-pointer {{ $this->userHasRepost() ? 'text-color-2' : '' }}">
-                <i id="repost_{{ $post->id }}" class="fa-solid fa-retweet fa-lg"></i>
+            <li class="cursor-pointer {{ $user && $this->repost->userHasRepost($post, $user) ? 'text-color-2' : '' }}" >
+                <i class="fa-solid fa-retweet fa-lg" x-on:click="user && toggleRepost(event.target), $wire.reposted({{ $post->id }})"></i>
                 <span>{{ count($post->reposts) }}</span>
             </li>
 

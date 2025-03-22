@@ -17,9 +17,8 @@
             
             <button 
                 type="submit" 
-                class="mx-4 px-4 border border-color-3 rounded-full bg-color-2 text-white font-bold hover:bg-color-1 hover:text-color-2 transition">
-                {{-- SEARCH LOGO HERE --}}
-                S
+                class="mx-4 px-6 border border-color-3 rounded-full bg-color-2 text-white font-bold hover:bg-color-1 hover:text-color-2 transition">
+                <i class="fa-solid fa-magnifying-glass"></i>
             </button>
         </form>
     </div>
@@ -50,96 +49,51 @@
         wire:loading.remove 
         wire:target="header_selection">
 
-        @if ($search_results)
-
-
-            @switch($header_selection)
-                @case('posts')
-
-                    @foreach ($search_results as $post)
-                        @livewire('post', ['post' => $post, 'search_characters' => $search_input], key($user->id))
-                    @endforeach
-
-                    @break
-                @case('profiles')
-                    
-                    @foreach ($search_results as $profile)
-                        
-                        <div class="w-full px-4 py-2 border-b-2 border-color-5 flex hover:bg-color-5 transition">
-                            <div>
-                                <a href="{{ route('profile', ['user' => $profile->user->name]) }}">
-                                    @if ($profile->picture)
-                                        <img class="h-12 rounded-full" src="{{ Storage::url($profile->picture->url) }}">    
-                                    @else
-                                        <i class="fa-solid fa-circle-user fa-3x"></i>
-                                    @endif
-                                </a>
-                            </div>
-
-                            <div class="pl-2 flex-1">
-                                <div class="flex relative" x-data="{ open: false }">
-                                    <a href="{{ route('profile', ['user' => $profile->user->name]) }}" class="flex gap-1">
-                                        <h2>
-                                            {{ strlen($profile->username) >= 15 ? substr($profile->username, 0, 15) . '...' : $profile->username }}
-                                        </h2>
-                        
-                                        <span class="text-sm text-color-4">
-                                            {{ strlen($profile->user->name) >= 12 ? '@' . substr($profile->user->name, 0, 12) . '...' : '@' . $profile->user->name }}
-                                        </span>
-                                    </a>
-                        
-                                    <div class="flex items-center gap-2 absolute right-0 top-0">
-                                        @if ($user)
-
-                                            <span class="cursor-pointer" x-on:click="open = !open">
-                                                <i class="fa-solid fa-ellipsis"></i>
-                                                asd
-                                            </span>
-                                            
-                                            <div class="w-28 shadow-lg bg-color-1 flex flex-wrap absolute right-4 top-0 z-10 transition-all overflow-hidden"
-                                                x-bind:class="open ? 'max-h-screen' : 'max-h-0'"
-                                                wire:loading.remove
-                                                wire:target="openReportModal">
-                        
-                                                @if ($profile->user->id !== $user->id)
-                                                    <button class="w-full px-4 py-2 cursor-pointer hover:bg-color-5 transition" 
-                                                        wire:click="openReportModal({{ $profile->id }})"
-                                                        x-on:click="open = false">
-                                                        Report
-                                                    </button>
-                                                @endif
-                                            </div>
-                                            
-                                        @endif
-                                    </div>
-                                </div>
-                        
-                                <div>
-                                    @if ($profile->biography)
-                                        <a href="{{ route('profile', ['user' => $profile->user->name]) }}">
-                                            <p class="text-[14px] leading-[18px]">
-                                                {{ strlen($profile->biography) > 100 ? substr($profile->biography, 0, 100) . '...' : $profile->biography }}
-                                            </p>
-                                        </a>    
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-
-                    @endforeach
-
-                    @break
-                @case('tags')
-                    
-            @endswitch
-            
-        @endif
+        <x-show-elements 
+            :elements="$search_results[$header_selection]" 
+            :type="$header_selection" 
+            :search_chars="$search_input" 
+            :user="$user"
+            :route_name="$route_name"
+        />
         
     </div>
 
     <div class="hidden" 
         wire:loading.class="w-full flex-1 !flex justify-center items-center" 
-        wire:target="header_selection">
+        wire:target="header_selection, search">
         <i class="fa-solid fa-circle-notch fa-xl fa-spin"></i>
     </div>
 </div>
+
+@push('scripts')
+    <script>
+        function toggleLike(element){
+            let span = element.parentNode.querySelector("span");
+
+            if(element.parentNode.className === 'cursor-pointer text-color-6'){
+                element.parentNode.className = 'cursor-pointer text-black';
+                span.innerText = parseInt(span.innerText) - 1;
+            }
+            else{
+                element.parentNode.className = 'cursor-pointer text-color-6';
+                span.innerText = parseInt(span.innerText) + 1;
+            }
+        }
+
+
+
+        function toggleRepost(element){
+            let span = element.parentNode.querySelector("span");
+
+            if(element.parentNode.className === 'cursor-pointer text-color-2'){
+                element.parentNode.className = 'cursor-pointer text-black';
+                span.innerText = parseInt(span.innerText) - 1;
+            }
+            else{
+                element.parentNode.className = 'cursor-pointer text-color-2';
+                span.innerText = parseInt(span.innerText) + 1;
+            }
+        }
+    </script>
+@endpush

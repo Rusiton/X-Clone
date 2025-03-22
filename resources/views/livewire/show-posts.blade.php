@@ -1,5 +1,4 @@
-<div class="flex-1 pb-20 flex flex-col overflow-hidden z-0" 
-    x-data="{ selected: @entangle('header_selection'), user: '{{ $user ? true : false }}' }">
+<div class="flex-1 pb-20 flex flex-col overflow-hidden z-0" x-data="{ selected: @entangle('header_selection'), user: '{{ $user ? true : false }}' }">
 
     <x-report-modal 
         :reportable="$report->reportable" 
@@ -23,17 +22,16 @@
 
     </div>
 
-    <div 
-        class="overflow-y-scroll" 
-        wire:loading.remove 
-        wire:target="header_selection" 
-        x-on:click="handleClick(event.target, user)">
+    <div class="overflow-y-scroll" wire:loading.remove wire:target="header_selection">
 
         @if ($posts)
 
-            @foreach ($posts as $post)
-                @livewire('post', ['post' => $post], key($post->id))
-            @endforeach
+            <x-show-elements
+                :elements="$posts"
+                type="posts"
+                :user="$user"
+                :route_name="$route_name"
+            />
 
         @else
 
@@ -56,7 +54,15 @@
                 @else
 
                 <div class="w-full p-4">
-                    {{-- Fill this --}}
+                    <div class="w-full py-2 flex justify-center">
+                        <i class="fa-solid fa-question fa-2x text-color-2"></i>
+                    </div>
+                    <p class="py-2 text-center">
+                        You are currently not following anyone.
+                    </p>
+                    <p class="py-2 text-center">
+                        Try <a class="text-color-2 underline" href="{{ route('search') }}">searching</a> for users, or navigate through the application to find what you most like!
+                    </p>
                 </div>
 
                 @endif
