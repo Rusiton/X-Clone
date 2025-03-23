@@ -20,7 +20,6 @@
                 />
 
             @endforeach
-            
             @break
 
         @case('profiles')
@@ -34,13 +33,17 @@
                 />
 
             @endforeach
-
             @break
 
         @case('tags')
-        
-        
 
+            @foreach ($elements as $tag)
+                <x-tag 
+                    :tag="$tag" 
+                    :search_chars="$search_chars"
+                    :user="$user"
+                />
+            @endforeach
             @break
             
     @endswitch

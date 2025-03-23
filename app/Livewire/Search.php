@@ -26,6 +26,9 @@ class Search extends Component
     #[Url(as: 'h')]
     public $header_selection = 'posts';
 
+    #[Url(as: 't')]
+    public $tag_search = '';
+
     public $search_results = ['posts' => [], 'profiles' => [], 'tags' => []];
 
     public Like $like;
@@ -35,8 +38,8 @@ class Search extends Component
 
 
     public function search(){
-        if($this->search_input === '') $this->reset('search_results');
-        $this->getSearchResults();
+        if(!$this->search_input) $this->reset('search_results');
+        $this->setSearchResults();
     }
 
 
@@ -47,10 +50,25 @@ class Search extends Component
 
 
 
-    public function getSearchResults(){
-        if($this->search_input === '') return;
+    public function searchTagPosts(){
+        $tag = Tag::where('name', str_replace('-', ' ', $this->tag_search))->first();
+        if(!$tag){
+            $this->search_results['posts'] = Post::where('text', 'like', '%' . $this->search_input . '%')->get();
+            return;
+        };
 
-        $this->search_results['posts'] = Post::where('text', 'like', '%' . $this->search_input . '%')->get();
+        $this->search_results['posts'] = $tag->posts;
+
+        $this->search_input && $this->search_results['posts'] = $this->search_results['posts']->filter(function ($value) {
+            return str_contains($value->text, $this->search_input);
+        });
+    }
+
+
+
+    public function setSearchResults(){
+        if ($this->tag_search) $this->searchTagPosts();
+        else $this->search_results['posts'] = Post::where('text', 'like', '%' . $this->search_input . '%')->get();
 
         $this->search_results['profiles'] = Profile::where('username', 'like', '%' . $this->search_input . '%')->get();
         $this->search_results['profiles'] = $this->search_results['profiles']->merge(Profile::where('biography', 'like', '%' . $this->search_input . '%')->get());
@@ -61,8 +79,10 @@ class Search extends Component
 
 
     public function toggleHeaderSelection($selection){
+        $selection !== 'posts' && $this->tag_search = '';
+
         $this->header_selection = $selection;
-        $this->getSearchResults();
+        $this->setSearchResults();
     }
 
 
@@ -82,12 +102,14 @@ class Search extends Component
 
 
     public function liked($post_id){
+        if(!$this->user) return redirect()->route('login');
         $this->like->like($post_id, $this->user->id);
     }
 
 
 
     public function reposted($post_id){
+        if(!$this->user) return redirect()->route('login');
         $this->repost->repost($post_id, $this->user->id);
     }
 
@@ -96,7 +118,7 @@ class Search extends Component
     public function mount(){
         $this->route_name = Route::currentRouteName();
         $this->user = Auth::user();
-        $this->getSearchResults();
+        $this->setSearchResults();
     }
 
 
