@@ -8,7 +8,7 @@
 <div class="w-full px-4 py-2 border-b-2 border-color-5 flex hover:bg-color-5 transition" x-data="{ open: false, user: {{ $user ? 'true' : 'false' }} }">
 
     <div class="flex flex-col">
-        <a class="flex-1" href="{{ route('profile', ['user' => $post->profile->user->name]) }}">
+        <a class="flex-1" href="{{ route('profile', ['name' => $post->profile->user->name]) }}">
             @if ($post->profile->picture)
                 <img class="h-12 rounded-full" src="{{ Storage::url($post->profile->picture->url) }}">    
             @else
@@ -20,7 +20,7 @@
     <div class="pl-2 flex-1">
         <div class="flex relative">
 
-            <a href="{{ route('profile', ['user' => $post->profile->user->name]) }}" class="flex gap-1">
+            <a href="{{ route('profile', ['name' => $post->profile->user->name]) }}" class="flex gap-1">
                 <h2>
                     {{ strlen($post->profile->username) >= 15 ? substr($post->profile->username, 0, 15) . '...' : $post->profile->username }}
                 </h2>

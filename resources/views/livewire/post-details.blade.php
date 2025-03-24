@@ -10,7 +10,7 @@
     
         <div class="w-full flex">
             <div class="flex">
-                <a href="{{ route('profile', ['user' => $post->profile->user->name]) }}">
+                <a href="{{ route('profile', ['name' => $post->profile->user->name]) }}">
                     @if ($post->profile->picture)
                         <img class="h-12 rounded-full" src="{{ Storage::url($post->profile->picture->url) }}">    
                     @else
@@ -20,7 +20,7 @@
             </div>
     
             <div class="flex-1 flex items-center relative" x-data="{ open: false }">
-                <a href="{{ route('profile', ['user' => $post->profile->user->name]) }}" class="flex-1 pl-2 leading-4">
+                <a href="{{ route('profile', ['name' => $post->profile->user->name]) }}" class="flex-1 pl-2 leading-4">
                     <h2 class="font-semibold">
                         {{ strlen($post->profile->username) >= 24 ? substr($post->profile->username, 0, 24) . '...' : $post->profile->username }}
                     </h2>

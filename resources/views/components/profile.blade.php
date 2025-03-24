@@ -6,7 +6,7 @@
 
 <div class="w-full px-4 py-2 border-b-2 border-color-5 flex hover:bg-color-5 transition">
     <div>
-        <a href="{{ route('profile', ['user' => $profile->user->name]) }}">
+        <a href="{{ route('profile', ['name' => $profile->user->name]) }}">
             @if ($profile->picture)
                 <img class="h-12 rounded-full" src="{{ Storage::url($profile->picture->url) }}">    
             @else
@@ -17,7 +17,7 @@
 
     <div class="pl-2 flex-1">
         <div class="flex relative" x-data="{ open: false }">
-            <a href="{{ route('profile', ['user' => $profile->user->name]) }}" class="flex gap-1">
+            <a href="{{ route('profile', ['name' => $profile->user->name]) }}" class="flex gap-1">
                 <h2>
                     {!!
                         str_replace(
@@ -60,7 +60,7 @@
 
         <div>
             @if ($profile->biography)
-                <a href="{{ route('profile', ['user' => $profile->user->name]) }}">
+                <a href="{{ route('profile', ['name' => $profile->user->name]) }}">
                     <p class="text-[14px] leading-[18px]">
                         {!!
                             str_replace(

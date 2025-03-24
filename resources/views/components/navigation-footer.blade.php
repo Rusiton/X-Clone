@@ -14,12 +14,12 @@
 
     @if ($user)
         @if ($user->profile->picture)
-            <a href="{{ $user ? route('profile', ['user' => $user->id]) : route('login') }}" 
+            <a href="{{ $user ? route('profile', ['name' => $user->name]) : route('login') }}" 
                 class="w-12 h-full flex justify-center items-center {{ Route::is('profile') ? 'border-b-4 border-color-2' : '' }}">
                 <img class="w-full rounded-full" src="{{ Storage::url($user->profile->picture->url) }}">
             </a>
         @else
-            <a href="{{ $user ? route('profile', ['user' => $user->id]) : route('login') }}" 
+            <a href="{{ $user ? route('profile', ['name' => $user->name]) : route('login') }}" 
                 class="w-12 h-full flex justify-center items-center {{ Route::is('profile') ? 'border-b-4 border-color-2' : '' }}">
                 <i class="fa-solid fa-circle-user fa-2xl"></i>
             </a>

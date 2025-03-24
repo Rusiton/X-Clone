@@ -18,7 +18,7 @@ Route::get('/register', [RegisterController::class, 'index'])->name('register');
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/search', [SearchController::class, 'index'])->name('search');
-Route::get('/profile/{user}', [ProfileController::class, 'index'])->name('profile');
+Route::get('/profile/{name}', [ProfileController::class, 'index'])->name('profile');
 
 Route::get('/new-post', NewPost::class)->name('new-post');
 Route::get('/post/{id}', [PostController::class, 'index'])->name('post');

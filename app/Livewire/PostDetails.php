@@ -58,7 +58,7 @@ class PostDetails extends Component
     #[On('toggleRepost')]
     public function reposted(){
         if(!$this->user) return redirect()->route('login');
-        $this->repost->repost($this->post->id, $this->user);
+        $this->repost->repost($this->post->id, $this->user->id);
     }
 
 

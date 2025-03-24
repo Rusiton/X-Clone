@@ -57,7 +57,7 @@ class NewPost extends Component
 
         $post = Post::create([ 
             'text' => $this->text,
-            'profile_id' => $this->user->id,
+            'profile_id' => $this->user->profile->id,
         ]);
 
         if($this->tags) $post->tags()->attach($this->tags);

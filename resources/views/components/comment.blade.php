@@ -2,7 +2,7 @@
 
 <div class="w-full px-4 py-3 border-b-2 border-color-5 flex" x-data="{ open: false }">
     <div>
-        <a href="{{ route('profile', ['user' => $comment->user->name]) }}">
+        <a href="{{ route('profile', ['name' => $comment->user->name]) }}">
             @if ($comment->user->profile->picture)
                 <img class="h-12 rounded-full" src="{{ Storage::url($comment->user->profile->picture->url) }}">    
             @else
@@ -13,7 +13,7 @@
 
     <div class="pl-2 flex-1">
         <div class="flex relative">
-            <a href="{{ route('profile', ['user' => $comment->user->name]) }}" class="flex gap-1">
+            <a href="{{ route('profile', ['name' => $comment->user->name]) }}" class="flex gap-1">
                 <h2>
                     {{ strlen($comment->user->profile->username) >= 18 ? substr($comment->user->profile->username, 0, 18) . '...' : $comment->user->profile->username }}
                 </h2>
