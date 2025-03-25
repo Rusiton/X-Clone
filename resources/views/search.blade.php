@@ -4,4 +4,8 @@
 
         <x-navigation-footer />
     </div>
+
+    @push('scripts')
+        <script type="text/javascript" src="{{ asset('storage/js/posts/handleElementClick.js') }}"></script>
+    @endpush
 </x-app-layout>

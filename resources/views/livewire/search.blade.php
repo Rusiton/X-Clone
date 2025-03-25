@@ -65,35 +65,3 @@
         <i class="fa-solid fa-circle-notch fa-xl fa-spin"></i>
     </div>
 </div>
-
-@push('scripts')
-    <script>
-        function toggleLike(element){
-            let span = element.parentNode.querySelector("span");
-
-            if(element.parentNode.className === 'cursor-pointer text-color-6'){
-                element.parentNode.className = 'cursor-pointer text-black';
-                span.innerText = parseInt(span.innerText) - 1;
-            }
-            else{
-                element.parentNode.className = 'cursor-pointer text-color-6';
-                span.innerText = parseInt(span.innerText) + 1;
-            }
-        }
-
-
-
-        function toggleRepost(element){
-            let span = element.parentNode.querySelector("span");
-
-            if(element.parentNode.className === 'cursor-pointer text-color-2'){
-                element.parentNode.className = 'cursor-pointer text-black';
-                span.innerText = parseInt(span.innerText) - 1;
-            }
-            else{
-                element.parentNode.className = 'cursor-pointer text-color-2';
-                span.innerText = parseInt(span.innerText) + 1;
-            }
-        }
-    </script>
-@endpush

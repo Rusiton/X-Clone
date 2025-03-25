@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Forms\Delete;
 use App\Livewire\Forms\Like;
 use App\Livewire\Forms\Report;
 use App\Livewire\Forms\Repost;
@@ -34,6 +35,7 @@ class Search extends Component
     public Like $like;
     public Repost $repost;
     public Report $report;
+    public Delete $delete;
 
 
 
@@ -111,6 +113,15 @@ class Search extends Component
     public function reposted($post_id){
         if(!$this->user) return redirect()->route('login');
         $this->repost->repost($post_id, $this->user->id);
+    }
+
+
+
+    #[On('delete-element')]
+    public function deleted($id, $type){
+        if(!$this->user) return redirect()->route('login');
+        $this->delete->delete($id, $type);
+        $this->setSearchResults();
     }
 
 

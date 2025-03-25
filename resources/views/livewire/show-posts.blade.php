@@ -83,6 +83,3 @@
     </div>
 </div>
 
-@push('scripts')
-    <script type="text/javascript" src="{{ asset('storage/js/posts/handlePostClick.js') }}"></script>
-@endpush

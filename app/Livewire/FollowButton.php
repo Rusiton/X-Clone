@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Forms\Follow as FormsFollow;
 use App\Models\Follow;
 use Livewire\Component;
 
@@ -11,27 +12,18 @@ class FollowButton extends Component
     public $profile;
 
     public $state = false;
+    public FormsFollow $form_follow;
 
 
     public function follow(){
-        if($this->state){
-            Follow::where('user_id', $this->user->id)
-                ->where('profile_id', $this->profile->id)
-                ->first()
-                ->delete();
-            
-            $this->state = false;
-            return;
-        }
-
-        $this->user->following()->syncWithoutDetaching([$this->profile->id]);
-        $this->state = true;
+        if(!$this->user) return redirect()->route('login');
+        $this->state = $this->form_follow->follow($this->user, $this->profile);
     }
 
 
 
     public function mount(){
-        if(Follow::where('user_id', $this->user->id)->where('profile_id', $this->profile->id)->first()){
+        if($this->user && Follow::where('user_id', $this->user->id)->where('profile_id', $this->profile->id)->first()){
             $this->state = true;
         }
     }

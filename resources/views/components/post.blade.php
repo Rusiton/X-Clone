@@ -2,8 +2,11 @@
     'post', 
     'search_chars' => '',
     'user' => false,
-    'route_name' => 'home'
 ])
+
+@php
+    $userOwnsThis = $user->id === $post->profile->user->id ? true : false
+@endphp
 
 <div class="w-full px-4 py-2 border-b-2 border-color-5 flex hover:bg-color-5 transition" x-data="{ open: false, user: {{ $user ? 'true' : 'false' }} }">
 
@@ -38,31 +41,11 @@
                 
                 @if ($user)
 
-                    <span class="cursor-pointer" x-on:click="open = !open">
-                        <i class="fa-solid fa-ellipsis"></i>
-                    </span>
-                    
-                    <div class="w-28 shadow-lg bg-color-1 flex flex-wrap absolute right-4 top-0 z-10 transition-all overflow-hidden"
-                        x-bind:class="open ? 'max-h-screen' : 'max-h-0'"
-                        wire:loading.remove
-                        wire:target="openReportModal">
-
-                        @if ($post->profile->user->id !== $user->id)
-                            <button class="w-full px-4 py-2 cursor-pointer hover:bg-color-5 transition" 
-                                wire:click="openReportModal({{ $post->id }}, 'Post')"
-                                x-on:click="open = false">
-                                Report
-                            </button>
-                        @endif
-                        
-                        @if ($post->profile->user->id === $user->id)
-                            <button class="w-full px-4 py-2 cursor-pointer hover:bg-color-5 transition text-color-6"
-                                x-on:click="open = false, showConfirmButton({{ $post->id }})">
-                                Delete
-                            </button>    
-                        @endif    
-                        
-                    </div>
+                    <x-element-options
+                        :element="$post"
+                        type="Post"
+                        :userOwnsThis="$userOwnsThis"
+                    />
 
                 @endif
 
@@ -72,7 +55,7 @@
 
         <div>
 
-            <a href="{{ route('post', ['id' => $post->id, 'b' => $route_name]) }}">
+            <a href="{{ route('post', ['id' => $post->id]) }}">
                 <p class="text-[14px] leading-[18px]">
                     {!! str_replace(
                         $search_chars,

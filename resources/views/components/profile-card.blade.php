@@ -39,4 +39,12 @@
             {{ $profile->biography }}
         </p>
     </div>
+
+    <div class="p-4 flex gap-6 text-[17px]">
+        <h3 class="font-bold">{{ count($profile->followers) }} <span class="ml-1 font-light">Followers</span></h3>
+        <h3 class="font-bold">{{ count($profile->user->following) }} <span class="ml-1 font-light">Following</span></h3>
+        <h3 class="font-bold">{{ count($profile->posts) }} <span class="ml-1 font-light">Posts</span></h3>
+    </div>
+
+    @livewire('profile-elements', ['profile' => $profile, 'user' => $user])
 </div>

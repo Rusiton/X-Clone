@@ -66,10 +66,10 @@ class ShowPosts extends Component
 
 
 
-    #[On('deletePost')]
-    public function deleted($post_id){
+    #[On('delete-element')]
+    public function deleted($id, $type){
         if(!$this->user) return redirect()->route('login');
-        $this->delete->delete($post_id);
+        $this->delete->delete($id, $type);
         $this->getPostsSelection();
     }
 
