@@ -21,8 +21,9 @@ class ProfileFactory extends Factory
 
         return [
             'username' => fake()->unique()->name(),
-            'biography' => fake()->text(1000),
+            'biography' => fake()->text(300),
             'private' => fake()->numberBetween(0, 1),
+            'banner_url' => 'banners/' . fake()->image('public/storage/banners', 780, 480, null, false),
             'user_id' => $user->id,
         ];
     }

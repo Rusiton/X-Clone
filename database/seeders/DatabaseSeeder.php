@@ -18,9 +18,11 @@ class DatabaseSeeder extends Seeder
     {
         Storage::deleteDirectory('posts');
         Storage::deleteDirectory('profile_pictures');
+        Storage::deleteDirectory('banners');
 
         Storage::makeDirectory('posts');
         Storage::makeDirectory('profile_pictures');
+        Storage::makeDirectory('banners');
 
         $this->call(ProfileSeeder::class);
 

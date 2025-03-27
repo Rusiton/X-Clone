@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
 
             $table->string('username', 45)->unique()->nullable();
-            $table->text('biography', 1000)->nullable();
+            $table->text('biography', 300)->nullable();
             $table->boolean('private')->default(false);
+            $table->string('banner_url')->nullable();
 
             $table->foreignId('user_id')
                 ->unique()

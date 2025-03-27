@@ -6,10 +6,14 @@
 
 <div class="flex-1 flex flex-col overflow-scroll">
     <div class="relative mb-12">
-        <img 
-            src="https://img.freepik.com/premium-photo/family-enjoying-beach-against-sky-during-sunset_1048944-29945983.jpg?size=338&ext=jpg"
-            class="w-full h-52 border-b border-color-3 object-cover"
-        >
+        @if ($profile->banner_url)
+            <img 
+                src="{{ Storage::url($profile->banner_url) }}"
+                class="w-full h-52 border-b border-color-3 object-cover"
+            >
+        @else
+            <div class="h-32 bg-color-5"></div>
+        @endif
 
         @if ($profile->picture)
             <img 
