@@ -8,8 +8,8 @@ use Livewire\Component;
 
 class FollowButton extends Component
 {
-    public $user;
     public $profile;
+    public $user;
 
     public $state = false;
     public FormsFollow $form_follow;

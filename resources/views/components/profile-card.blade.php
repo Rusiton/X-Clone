@@ -31,7 +31,10 @@
             </span>
         </div>
 
-        @livewire('follow-button', ['profile' => $profile, 'user' => $user])
+        <div class="h-fit flex items-center gap-4">
+            @livewire('profile-options', ['profile' => $profile, 'user' => $user])
+            @livewire('follow-button', ['profile' => $profile, 'user' => $user])
+        </div>
     </div>
 
     <div class="px-4">

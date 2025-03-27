@@ -57,6 +57,7 @@ class ProfileElements extends Component
 
 
 
+    #[On('open-report-modal')]
     public function openReportModal($reportable_id, $model){
         if(!$this->user) return redirect()->route('login');
         $this->report->openReportModal($reportable_id, $model);
