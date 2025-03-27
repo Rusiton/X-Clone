@@ -1,10 +1,10 @@
 @props(['reply', 'user' => false])
 
 @php
-    $userOwnsThis = $user->id === $reply->user->id ? true : false
+    $userOwnsThis = $user ? ($user->id === $reply->user->id ? true : false) : false
 @endphp
 
-<div class="w-full px-4 py-2 flex relative">
+<div class="w-full px-4 py-2 border-b-2 border-color-5 flex relative">
     <a href="{{ route('post', ['id' => $reply->post->id]) }}" class="flex-1 flex">
         <div>
             @if ($reply->user->profile->picture)
@@ -23,7 +23,7 @@
                 {{ strlen($reply->user->name) >= 12 ? '@' . substr($reply->user->name, 0, 12) . '...' : '@' . $reply->user->name }}
             </span>
 
-            <p class="w-full">
+            <p class="w-full text-[14px] leading-[18px]">
                 {{ $reply->text }}
             </p>
         </div>
@@ -34,11 +34,13 @@
             {{ $reply->created_at->diffForHumans(null, true, true) }}
         </span>
 
-        <x-element-options
-            :element="$reply"
-            type="Comment"
-            :userOwnsThis="$userOwnsThis"
-        />
+        @if ($user)
+            <x-element-options
+                :element="$reply"
+                type="Comment"
+                :userOwnsThis="$userOwnsThis"
+            />
+        @endif
 
     </div>
 </div>

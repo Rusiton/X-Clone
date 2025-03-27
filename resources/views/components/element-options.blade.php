@@ -1,7 +1,7 @@
 @props(['element', 'type', 'userOwnsThis' => false])
 
 <div x-data="{ open: false }">
-    <span class="cursor-pointer" x-on:click="open = !open">
+    <span class="cursor-pointer" x-on:click="open = !open" x-on:click.outside="open = false">
         <i class="fa-solid fa-ellipsis"></i>
     </span>
     

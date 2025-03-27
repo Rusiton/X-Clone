@@ -46,7 +46,12 @@
                 @break
 
             @case('reposts')
-                
+                @foreach ($profile_elements as $repost)
+                    <x-repost
+                        :repost="$repost" 
+                        :user="$user"
+                    />
+                @endforeach
                 @break
 
             @case('replies')
@@ -54,7 +59,6 @@
                     <x-reply
                         :reply="$reply" 
                         :user="$user"
-                        userOwnsThis="{{ $user->id === $profile->user->id ? true : false }}"
                     />
                 @endforeach
                 @break

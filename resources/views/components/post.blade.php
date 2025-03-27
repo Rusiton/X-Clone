@@ -1,19 +1,17 @@
-@props([
-    'post', 
-    'search_chars' => '',
-    'user' => false,
-])
+@props(['post', 'search_chars' => '', 'user' => false])
 
 @php
-    $userOwnsThis = $user->id === $post->profile->user->id ? true : false
+    $userOwnsThis = $user ? ($user->id === $post->profile->user->id ? true : false) : false;
 @endphp
 
-<div class="w-full px-4 py-2 border-b-2 border-color-5 flex hover:bg-color-5 transition" x-data="{ open: false, user: {{ $user ? 'true' : 'false' }} }">
+<div class="w-full px-4 py-2 border-b-2 border-color-5 flex hover:bg-color-5 transition" 
+    wire:key="{{ $post->id }}"
+    x-data="{ user: '{{ $user ? true : false }}' }">
 
     <div class="flex flex-col">
         <a class="flex-1" href="{{ route('profile', ['name' => $post->profile->user->name]) }}">
             @if ($post->profile->picture)
-                <img class="h-12 rounded-full" src="{{ Storage::url($post->profile->picture->url) }}">    
+                <img class="h-12 rounded-full" src="{{ Storage::url($post->profile->picture->url) }}">
             @else
                 <i class="fa-solid fa-circle-user fa-3x"></i>
             @endif
@@ -38,15 +36,13 @@
                 <span class="text-xs">
                     {{ $post->created_at->diffForHumans(null, true, true) }}
                 </span>
-                
+
                 @if ($user)
-
-                    <x-element-options
-                        :element="$post"
-                        type="Post"
-                        :userOwnsThis="$userOwnsThis"
+                    <x-element-options 
+                        :element="$post" 
+                        type="Post" 
+                        :userOwnsThis="$userOwnsThis" 
                     />
-
                 @endif
 
             </div>
@@ -57,11 +53,7 @@
 
             <a href="{{ route('post', ['id' => $post->id]) }}">
                 <p class="text-[14px] leading-[18px]">
-                    {!! str_replace(
-                        $search_chars,
-                        "<span class='font-bold'>$search_chars</span>",
-                        $post->text
-                    ) !!}
+                    {!! str_replace($search_chars, "<span class='font-bold'>$search_chars</span>", $post->text) !!}
                 </p>
             </a>
 
@@ -81,8 +73,10 @@
 
         <ul class="w-full mt-2 flex gap-6 font-bold select-none">
 
-            <li class="cursor-pointer {{ $user && $this->like->userHasLike($post, $user) ? 'text-color-6' : 'text-black' }}">
-                <i class="fa-solid fa-heart fa-lg" x-on:click="user && toggleLike(event.target), $wire.liked({{ $post->id }})"></i>
+            <li
+                class="cursor-pointer {{ $user && $this->like->userHasLike($post, $user) ? 'text-color-6' : 'text-black' }}">
+                <i class="fa-solid fa-heart fa-lg"
+                    x-on:click="user && toggleLike(event.target), $wire.liked({{ $post->id }})"></i>
                 <span>{{ count($post->likes) }}</span>
             </li>
 
@@ -92,9 +86,10 @@
                     <span>{{ count($post->comments) }}</span>
                 </a>
             </li>
-            
-            <li class="cursor-pointer {{ $user && $this->repost->userHasRepost($post, $user) ? 'text-color-2' : '' }}" >
-                <i class="fa-solid fa-retweet fa-lg" x-on:click="user && toggleRepost(event.target), $wire.reposted({{ $post->id }})"></i>
+
+            <li class="cursor-pointer {{ $user && $this->repost->userHasRepost($post, $user) ? 'text-color-2' : '' }}">
+                <i class="fa-solid fa-retweet fa-lg"
+                    x-on:click="user && toggleRepost(event.target), $wire.reposted({{ $post->id }})"></i>
                 <span>{{ count($post->reposts) }}</span>
             </li>
 
