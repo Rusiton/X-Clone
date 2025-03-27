@@ -1,4 +1,5 @@
-<div x-data="{ selected: @entangle('header_selection') }">
+<div class="flex-1 flex flex-col" 
+    x-data="{ selected: @entangle('header_selection') }">
 
     <x-report-modal 
         :reportable="$report->reportable" 
@@ -34,7 +35,7 @@
 
     </div>
 
-    <div>
+    <div wire:loading.remove wire:target="toggleHeaderSelection">
         @switch($header_selection)
             @case('posts')
                 @foreach ($profile_elements as $post)
@@ -64,7 +65,12 @@
                 @break
 
             @case('popular')
-
+                @foreach ($profile_elements as $post)
+                    <x-post 
+                        :post="$post" 
+                        :user="$user"
+                    />
+                @endforeach
                 @break
         @endswitch
     </div>
@@ -72,4 +78,10 @@
     @if ($user)
         <x-new-post />
     @endif
+
+    <div class="hidden" 
+        wire:loading.class="flex-1 !flex justify-center items-center" 
+        wire:target="toggleHeaderSelection">
+        <i class="fa-solid fa-circle-notch fa-xl fa-spin"></i>
+    </div>
 </div>

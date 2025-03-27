@@ -43,7 +43,7 @@ class ProfileElements extends Component
                 break;
             
             case 'popular':
-            
+                $this->profile_elements = $this->profile->topPosts;
                 break;
         }
     }

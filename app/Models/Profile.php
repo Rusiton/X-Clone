@@ -43,6 +43,11 @@ class Profile extends Model
         return $this->hasMany(Post::class);
     }
 
+    // Returns the most liked posts that this profile owns
+    public function topPosts(){
+        return $this->posts()->withCount('likes')->orderByDesc('likes_count');
+    }
+
     // Returns all reports that this profile owns
     public function reports(){
         return $this->morphMany(Report::class, 'reportable');
