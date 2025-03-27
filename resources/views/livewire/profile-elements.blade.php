@@ -68,4 +68,8 @@
                 @break
         @endswitch
     </div>
+
+    @if ($user)
+        <x-new-post />
+    @endif
 </div>
