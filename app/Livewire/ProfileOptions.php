@@ -19,6 +19,12 @@ class ProfileOptions extends Component
 
 
 
+    public function settings(){
+        return redirect()->route('settings');
+    }
+
+
+
     public function openReportModal(){
         $this->dispatch('open-report-modal', reportable_id: $this->profile->id, model: 'Profile');
     }

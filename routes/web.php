@@ -6,6 +6,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Middleware\SaveLastUrl;
 use App\Livewire\NewPost;
 use Illuminate\Support\Facades\Route;
@@ -19,7 +20,10 @@ Route::get('/register', [RegisterController::class, 'index'])->name('register');
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/search', [SearchController::class, 'index'])->name('search');
-Route::get('/profile/{name}', [ProfileController::class, 'index'])->name('profile')->middleware(SaveLastUrl::class);;
+Route::get('/profile/{name}', [ProfileController::class, 'index'])->name('profile')->middleware(SaveLastUrl::class);
+
+Route::get('/settings', [SettingsController::class, 'index'])->name('settings')->middleware(SaveLastUrl::class);
+Route::put('/settings', [SettingsController::class, 'update'])->name('settings');
 
 Route::get('/new-post', NewPost::class)->name('new-post');
 Route::get('/post/{id}', [PostController::class, 'index'])->name('post')->middleware(SaveLastUrl::class);

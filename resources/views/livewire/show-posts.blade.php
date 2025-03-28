@@ -8,13 +8,13 @@
 
     <div class="flex border-b-2 border-color-5">
         
-        <button class="w-1/2 py-4 font-semibold transition flex justify-center relative"
+        <button class="w-1/2 py-4 text-color-7 font-semibold transition flex justify-center relative"
             x-bind:class="selected == 'latest' ? 'bg-color-5 after:absolute after:bottom-0 after:h-1 after:w-24 after:bg-color-2' : ''"
             x-on:click="selected != 'latest' ? selected = 'latest' : ''; $wire.toggleHeaderSelection(selected)">
             Latest Posts
         </button>
 
-        <button class="w-1/2 py-4 font-semibold transition flex justify-center relative"
+        <button class="w-1/2 py-4 text-color-7 font-semibold transition flex justify-center relative"
             x-bind:class="selected == 'following' ? 'bg-color-5 after:absolute after:bottom-0 after:h-1 after:w-24 after:bg-color-2' : ''"
             x-on:click="selected != 'following' ? selected = 'following' : ''; $wire.toggleHeaderSelection(selected)">
             Following
