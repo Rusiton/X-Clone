@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Report;
+use App\Models\Role;
 use App\Models\Tag;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
@@ -24,15 +25,14 @@ class DatabaseSeeder extends Seeder
         Storage::makeDirectory('profile_pictures');
         Storage::makeDirectory('banners');
 
+        Tag::factory(10)->create();
+
+        $this->call(PermissionSeeder::class);
+        $this->call(RoleSeeder::class);
+
         $this->call(ProfileSeeder::class);
 
         $this->call(FollowSeeder::class);
-
-        $this->call(PermissionRoleSeeder::class);
-
-        $this->call(RoleUserSeeder::class);
-
-        Tag::factory(15)->create();
 
         $this->call(PostSeeder::class);
 
