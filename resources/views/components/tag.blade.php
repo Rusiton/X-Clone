@@ -4,14 +4,14 @@
     'user' => false,
 ])
 
-<div class="w-full border-b-2 border-color-5 flex hover:bg-color-5 transition">
+<div class="w-full flex hover:bg-color-5 transition">
     <a href="{{ route('search', ['t' => str_replace(' ', '-', $tag->name)]) }}" class="p-2 flex-1 flex items-center">
-        <div class="w-14 h-14 border border-color-2 rounded-full bg-color-1 grid place-content-center">
+        <div class="w-14 h-14 border border-color-2 rounded-full bg-color-1 grid place-content-center text-color-7">
             <i class="fa-regular fa-hashtag fa-2x"></i>
         </div>
 
         <div class="flex-1">
-            <span class="ml-3 max-w-full overflow-hidden whitespace-nowrap text-lg font-medium">
+            <span class="ml-3 max-w-full overflow-hidden whitespace-nowrap text-lg text-color-7 font-medium">
                 {!!
                     '#' . str_replace(
                         $search_chars, 

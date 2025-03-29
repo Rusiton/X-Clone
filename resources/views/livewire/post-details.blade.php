@@ -14,14 +14,14 @@
                     @if ($post->profile->picture)
                         <img class="h-12 rounded-full" src="{{ Storage::url($post->profile->picture->url) }}">    
                     @else
-                        <i class="fa-solid fa-circle-user fa-3x"></i>
+                        <i class="fa-solid fa-circle-user fa-3x text-color-7"></i>
                     @endif
                 </a>
             </div>
     
             <div class="flex-1 flex items-center relative" x-data="{ open: false }">
                 <a href="{{ route('profile', ['name' => $post->profile->user->name]) }}" class="flex-1 pl-2 leading-4">
-                    <h2 class="font-semibold">
+                    <h2 class="text-color-7 font-semibold">
                         {{ strlen($post->profile->username) >= 24 ? substr($post->profile->username, 0, 24) . '...' : $post->profile->username }}
                     </h2>
     
@@ -31,7 +31,7 @@
                 </a>
     
                 @if ($user)
-                    <span class="cursor-pointer" x-on:click="open = !open">
+                    <span class="cursor-pointer text-color-4" x-on:click="open = !open">
                         <i class="fa-solid fa-ellipsis"></i>
                     </span>
 
@@ -41,9 +41,10 @@
                         wire:target="openReportModal">
 
                         @if ($post->profile->user->id !== $user->id)
-                            <button class="w-full px-4 py-2 cursor-pointer hover:bg-color-5 transition" 
+                            <button class="w-full px-4 py-2 text-color-6 cursor-pointer transition hover:bg-color-5" 
                                 wire:click="openReportModal()"
                                 x-on:click="open = false">
+                                <i class="mr-2 fa-solid fa-flag"></i>
                                 Report
                             </button>
                         @endif
@@ -61,7 +62,7 @@
         </div>
 
         <div class="w-full pt-4">
-            <p class="text-[14px] leading-[18px]">
+            <p class="text-color-7 text-[14px] leading-[18px]">
                 {{ $post->text }}
             </p>
 
@@ -85,17 +86,15 @@
         </div>
 
         <ul class="w-full mt-2 flex gap-6 font-bold select-none">
-            <li class="cursor-pointer {{ $this->userHasLike() ? 'text-color-6' : 'text-black' }}">
+            <li class="cursor-pointer {{ $this->userHasLike() ? 'text-color-6' : 'text-color-7' }}">
                 <i id="like" class="fa-solid fa-heart fa-xl"></i>
                 <span>{{ count($post->likes) }}</span>
             </li>
-            <li id="comment" class="hover:text-color-2">
-                <a href="{{ route('post', ['id' => $post->id]) }}">
-                    <i class="fa-solid fa-comment fa-xl"></i>
-                    <span>{{ count($post->comments) }}</span>
-                </a>
+            <li id="comment" class="text-color-7">
+                <i class="fa-solid fa-comment fa-xl"></i>
+                <span>{{ count($post->comments) }}</span>
             </li>
-            <li class="cursor-pointer {{ $this->userHasRepost() ? 'text-color-2' : '' }}">
+            <li class="cursor-pointer {{ $this->userHasRepost() ? 'text-color-2' : 'text-color-7' }}">
                 <i id="repost" class="fa-solid fa-retweet fa-xl"></i>
                 <span>{{ count($post->reposts) }}</span>
             </li>
@@ -110,13 +109,13 @@
                     @if ($user->picture)
                         <img src="{{ Storage::url($user->picture->url) }}">    
                     @else
-                        <i class="fa-solid fa-circle-user fa-3x"></i>
+                        <i class="fa-solid fa-circle-user fa-3x text-color-7"></i>
                     @endif
                 </div>
                 
                 <div class="flex-1 pl-2" x-data="{ comment: '' }">
                     <x-textarea 
-                        class="w-full h-24 bg-color-5 resize-none"
+                        class="w-full h-24 border-color-4 bg-color-5 resize-none text-color-7"
                         placeholder="Add a comment..." 
                         wire:model.live="comment.comment"
                         x-model="comment"
@@ -128,7 +127,7 @@
                         </div>
 
                         <button 
-                            class="px-4 py-1 border border-color-3 rounded-full bg-color-2 transition text-color-1 font-semibold float-right enabled:hover:bg-color-1 enabled:hover:text-color-2 disabled:opacity-50"
+                            class="px-4 py-1 border border-color-2 rounded-full bg-color-2 transition text-color-1 font-semibold float-right enabled:hover:bg-color-1 enabled:hover:text-color-2 disabled:opacity-50"
                             wire:click="addComment()"
                             x-bind:disabled="comment.length > 0 ? false : true">
                             POST

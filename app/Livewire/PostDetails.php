@@ -26,9 +26,9 @@ class PostDetails extends Component
 
 
 
-    public function openReportModal($reportable_id, $model){
+    public function openReportModal(){
         if(!$this->user) return redirect()->route('login');
-        $this->report->openReportModal($reportable_id, $model);
+        $this->report->openReportModal($this->post->id, 'Post');
     }
 
 
@@ -50,7 +50,7 @@ class PostDetails extends Component
     #[On('toggleLike')]
     public function liked(){
         if(!$this->user) return redirect()->route('login');
-        $this->like->like($this->post->id, $this->user);
+        $this->like->like($this->post->id, $this->user->id);
     }
 
 

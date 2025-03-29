@@ -1,20 +1,20 @@
 @props(['profile'])
 
 <div class="px-4 py-2">
-    <h2 class="border-b-2 border-color-3 text-lg font-bold">
+    <h2 class="border-b-[1px] border-color-7 text-color-7 text-lg font-bold">
         Profile
     </h2>
 
     <div class="py-4">
         <fieldset class="flex flex-col gap-4">
-            <legend class="mb-2 font-bold">Presentation</legend>
+            <legend class="mb-2 text-color-7 font-bold">Presentation</legend>
 
             <div>
-                <label for="username" class="text-[14px] font-semibold">Name</label>
+                <label for="username" class="text-color-7 text-[14px] font-semibold">Name</label>
                 <x-input 
                     id="username"
                     name="username"
-                    class="mt-1 w-full border-none bg-color-5"
+                    class="mt-1 w-full border-none bg-color-5 text-color-7"
                     value="{{ $profile->username }}"
                 />
 
@@ -22,11 +22,11 @@
             </div>
 
             <div>
-                <label for="biography" class="text-[14px] font-semibold">Biography</label>
+                <label for="biography" class="text-color-7 text-[14px] font-semibold">Biography</label>
                 <x-textarea 
                     id="biography"
                     name="biography"
-                    class="mt-1 w-full h-48 border-none bg-color-5"
+                    class="mt-1 w-full h-48 border-none bg-color-5 text-color-7"
                     content="{{ $profile->biography }}" 
                 />
 
@@ -35,11 +35,11 @@
 
             <div class="flex flex-col gap-3"
                 x-data="{ checked: '{{ $profile->private }}' }">
-                <span class="text-[14px] font-semibold">Privacy</span>
-                <p class="italic text-sm font-light">* Setting your profile to private will force users to follow you in order to see your activity (posts, reposts, etc.)</p>
+                <span class="text-color-7 text-[14px] font-semibold">Privacy</span>
+                <p class="italic text-color-4 text-sm font-light">* Setting your profile to private will force users to follow you in order to see your activity (posts, reposts, etc.)</p>
 
                 <div class="w-36 px-4 py-2 border border-color-3 rounded-md flex items-center gap-2 transition-colors" 
-                    x-bind:class="checked === '0' ? 'bg-color-2 text-white' : ''">
+                    x-bind:class="checked === '0' ? 'bg-color-2 text-white' : 'text-color-4'">
                     <input 
                         type="radio" 
                         id="public"
@@ -56,7 +56,7 @@
                 </div>
 
                 <div class="w-36 px-4 py-2 border border-color-3 rounded-md flex items-center gap-2 transition-colors" 
-                    x-bind:class="checked === '1' ? 'bg-color-2 text-white' : ''">
+                    x-bind:class="checked === '1' ? 'bg-color-2 text-white' : 'text-color-4'">
                     <input 
                         type="radio" 
                         id="private"

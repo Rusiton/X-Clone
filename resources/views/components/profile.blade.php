@@ -4,13 +4,13 @@
     'user' => false,
 ])
 
-<div class="w-full px-4 py-2 border-b-2 border-color-5 flex hover:bg-color-5 transition">
+<div class="w-full px-4 py-2 flex hover:bg-color-5 transition">
     <div>
         <a href="{{ route('profile', ['name' => $profile->user->name]) }}">
             @if ($profile->picture)
                 <img class="h-12 rounded-full" src="{{ Storage::url($profile->picture->url) }}">    
             @else
-                <i class="fa-solid fa-circle-user fa-3x"></i>
+                <i class="fa-solid fa-circle-user fa-3x text-color-7"></i>
             @endif
         </a>
     </div>
@@ -18,7 +18,7 @@
     <div class="pl-2 flex-1">
         <div class="flex relative" x-data="{ open: false }">
             <a href="{{ route('profile', ['name' => $profile->user->name]) }}" class="flex gap-1">
-                <h2>
+                <h2 class="text-color-7">
                     {!!
                         str_replace(
                             $search_chars,
@@ -36,7 +36,7 @@
             <div class="flex items-center gap-2 absolute right-0 top-0">
                 @if ($user)
 
-                    <span class="cursor-pointer" x-on:click="open = !open">
+                    <span class="cursor-pointer text-color-4" x-on:click="open = !open">
                         <i class="fa-solid fa-ellipsis"></i>
                     </span>
                     
@@ -46,9 +46,10 @@
                         wire:target="openReportModal">
 
                         @if ($profile->user->id !== $user->id)
-                            <button class="w-full px-4 py-2 cursor-pointer hover:bg-color-5 transition" 
+                            <button class="w-full px-4 py-2 text-color-6 cursor-pointer transition hover:bg-color-5" 
                                 wire:click="openReportModal({{ $profile->id }}, 'Profile')"
                                 x-on:click="open = false">
+                                <i class="mr-2 fa-solid fa-flag"></i>
                                 Report
                             </button>
                         @endif
@@ -61,7 +62,7 @@
         <div>
             @if ($profile->biography)
                 <a href="{{ route('profile', ['name' => $profile->user->name]) }}">
-                    <p class="text-[14px] leading-[18px]">
+                    <p class="text-color-7 text-[14px] leading-[18px]">
                         {!!
                             str_replace(
                                 $search_chars,

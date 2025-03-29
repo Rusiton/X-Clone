@@ -21,13 +21,13 @@
                 class="w-24 h-24 border-2 border-color-1 rounded-full absolute left-4 -bottom-12"
             >
         @else
-            <i class="fa-solid fa-circle-user fa-6x border-2 border-color-1 rounded-full bg-color-1 absolute left-4 -bottom-12"></i>
+            <i class="fa-solid fa-circle-user fa-6x border-2 border-color-1 rounded-full bg-color-1 text-color-7 absolute left-4 -bottom-12"></i>
         @endif
     </div>
 
     <div class="p-4 flex">
         <div class="flex-1 overflow-hidden">
-            <h2 class="text-[20px] whitespace-nowrap font-extrabold">
+            <h2 class="text-color-7 text-[20px] whitespace-nowrap font-extrabold">
                 {{ strlen($profile->username) > 20 ? substr($profile->username, 0, 20) . '...' : $profile->username }}
             </h2>
             <span class="text-lg text-color-4 font-light">
@@ -41,13 +41,13 @@
         </div>
     </div>
 
-    <div class="px-4">
+    <div class="px-4 text-color-7">
         <p>
             {{ $profile->biography }}
         </p>
     </div>
 
-    <div class="p-4 flex gap-6 text-[17px]">
+    <div class="p-4 flex gap-6 text-[17px] text-color-7">
         <h3 class="font-bold">{{ count($profile->followers) }} <span class="ml-1 font-light">Followers</span></h3>
         <h3 class="font-bold">{{ count($profile->user->following) }} <span class="ml-1 font-light">Following</span></h3>
         <h3 class="font-bold">{{ count($profile->posts) }} <span class="ml-1 font-light">Posts</span></h3>

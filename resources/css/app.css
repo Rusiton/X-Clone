@@ -14,10 +14,10 @@
     --color-1: #1C2131;
     --color-2: #2FA8FF;
     --color-3: #383838;
-    --color-4: #D2D2D2;
-    --color-5: #202020;
+    --color-4: #949494;
+    --color-5: #252836;
     --color-6: #ff5b5b;
-    --color-7: #FFFFFF;
+    --color-7: #dddddd;
 }
 
 @tailwind base;

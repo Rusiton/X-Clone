@@ -12,7 +12,7 @@
             <input 
                 type="text"
                 placeholder="Search something..."
-                class="flex-1 pl-10 border border-color-3 bg-color-5 rounded-full"
+                class="flex-1 pl-10 border border-color-3 bg-color-5 rounded-full text-color-7"
                 wire:model="search_input">
             
             <button 
@@ -23,7 +23,7 @@
         </form>
     </div>
 
-    <div class="flex border-b-2 border-color-5">
+    <div class="flex border-b-2 border-color-5 text-color-7">
         
         <button class="w-1/3 py-4 font-semibold transition flex justify-center relative"
             x-bind:class="selected == 'posts' ? 'bg-color-5 after:absolute after:bottom-0 after:h-1 after:w-24 after:bg-color-2' : ''"

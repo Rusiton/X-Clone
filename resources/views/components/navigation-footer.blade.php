@@ -2,7 +2,7 @@
     $user = Auth::user();
 @endphp
 
-<div class="w-full h-20 px-4 bg-color-1 border-t-2 border-color-5 absolute bottom-0 z-10 flex justify-between items-center">
+<div class="w-full h-20 px-4 bg-color-1 border-t-2 border-color-5 absolute bottom-0 z-10 flex justify-between items-center text-color-7">
 
     <a href="{{ route('home') }}" class="w-12 h-full flex justify-center items-center {{ Route::is('home') ? 'border-b-4 border-color-2' : '' }}">
         <i class="fa-solid fa-house fa-2xl"></i>

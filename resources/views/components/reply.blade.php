@@ -10,12 +10,12 @@
             @if ($reply->user->profile->picture)
                 <img class="h-12 rounded-full" src="{{ Storage::url($reply->user->profile->picture->url) }}">    
             @else
-                <i class="fa-solid fa-circle-user fa-3x"></i>
+                <i class="fa-solid fa-circle-user fa-3x text-color-7"></i>
             @endif
         </div>
 
         <div class="flex-1 pl-2 flex flex-wrap">
-            <h2>
+            <h2 class="text-color-7">
                 {{ strlen($reply->user->profile->username) >= 15 ? substr($reply->user->profile->username, 0, 15) . '...' : $reply->user->profile->username }}
             </h2>
 
@@ -23,14 +23,14 @@
                 {{ strlen($reply->user->name) >= 12 ? '@' . substr($reply->user->name, 0, 12) . '...' : '@' . $reply->user->name }}
             </span>
 
-            <p class="w-full text-[14px] leading-[18px]">
+            <p class="w-full text-color-7 text-[14px] leading-[18px]">
                 {{ $reply->text }}
             </p>
         </div>
     </a>
 
     <div class="flex items-center gap-2 absolute top-2 right-4">
-        <span class="pb-[2px] text-xs">
+        <span class="pb-[2px] text-color-7 text-xs">
             {{ $reply->created_at->diffForHumans(null, true, true) }}
         </span>
 

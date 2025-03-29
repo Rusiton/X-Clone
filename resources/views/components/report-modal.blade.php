@@ -22,7 +22,7 @@
             <x-textarea 
                 id="report_reason" 
                 wire:model.live="report.report_reason" 
-                class="w-full h-64 mt-1 resize-none" 
+                class="w-full h-64 mt-1 resize-none bg-color-5 text-color-7" 
                 required
             />
             
