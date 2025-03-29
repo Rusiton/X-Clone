@@ -64,6 +64,7 @@ class SaveUserSettingsRequest extends FormRequest
             'name' => 'required|unique:users,name,' . $user->id . '|max:30|regex:/^[a-zA-Z0-9_]+$/',
             'email' => 'required|unique:users,email,' . $user->id . '|email',
             // 'password' => 'required|min:8',
+            'theme' => 'required|bool',
         ];
     }
 }

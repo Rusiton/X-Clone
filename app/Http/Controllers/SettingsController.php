@@ -30,6 +30,7 @@ class SettingsController extends Controller
 
         $user->update($request->validated());
         $user->profile->update($request->validated());
+        $user->settings->update($request->validated());
         
         return redirect()->route('profile', ['name' => $user->name]);
     }

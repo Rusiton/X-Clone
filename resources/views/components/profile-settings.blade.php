@@ -5,7 +5,7 @@
         Profile
     </h2>
 
-    <div class="py-4">
+    <div class="py-4 flex flex-col gap-4">
         <fieldset class="flex flex-col gap-4">
             <legend class="mb-2 text-color-7 font-bold">Presentation</legend>
 
