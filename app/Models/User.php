@@ -52,7 +52,12 @@ class User extends Authenticatable
         ];
     }
 
+
     
+    // Returns user's settings
+    public function settings(){
+        return $this->hasOne(Setting::class);
+    }
 
     // Returns user's profile
     public function profile(){
