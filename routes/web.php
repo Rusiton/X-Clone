@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PostController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Middleware\SaveLastUrl;
+use App\Http\Middleware\UserIsAdmin;
 use App\Livewire\NewPost;
 use Illuminate\Support\Facades\Route;
 
@@ -30,3 +32,5 @@ Route::get('/post/{id}', [PostController::class, 'index'])->name('post')->middle
 
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/register', [RegisterController::class, 'register'])->name('register');
+
+Route::get('/admin', [AdminController::class, 'index'])->name('admin')->middleware(UserIsAdmin::class);

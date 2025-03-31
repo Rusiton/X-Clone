@@ -35,7 +35,7 @@
             @endif
 
             <!-- Page Content -->
-            <main>
+            <main class="font-poppins">
                 {{ $slot }}
             </main>
         </div>
