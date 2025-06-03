@@ -61,7 +61,7 @@ class User extends Authenticatable
 
     // Returns user's profile
     public function profile(){
-        return $this->hasOne(Profile::class);
+        return $this->hasOne(Profile::class)->withTrashed();
     }
 
     // Returns all user's roles

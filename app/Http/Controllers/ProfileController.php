@@ -10,8 +10,7 @@ class ProfileController extends Controller
     public function index($name){
         $user = User::where('name', $name)->first();
         if(!$user) return redirect()->route('home');
-
-        $profile = $user->profile;
+        if($user->profile->trashed()) return redirect()->route('home');
 
         return view('profile', compact('profile'));
     }
