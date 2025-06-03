@@ -19,6 +19,7 @@ class ReportPanel extends Component
         $model = $this->sort === 0 ? 'Post' : ($this->sort === 1 ? 'Comment' : 'Profile');
         $this->report_list = Report::where('reportable_type', "App\Models\\$model")
                                     ->where('active', 1)
+                                    ->orderBy('id', 'desc')
                                     ->skip($this->skip)
                                     ->take(25)
                                     ->get();

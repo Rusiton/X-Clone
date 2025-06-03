@@ -36,125 +36,32 @@
         @switch($sort)
             @case(0)
                 @foreach ($report_list as $report)
-                    <div class="py-2 flex flex-wrap">
-                        <img src="{{ Storage::url($report->reportable->profile->picture->url) }}" class="w-8 h-8 rounded-full">
-                        <div class="px-2 flex-1 flex flex-wrap">
-                            <div class="flex-1 flex justify-between">
-                                <h3 class="text-sm text-color-4">{{ "@" . $report->reportable->profile->user->name }}</h3>
-                                <span class="text-xs text-color-4">
-                                    {{ $report->reportable->created_at->diffForHumans(null, true, true) }}
-                                </span>
-                            </div>
-
-                            <div class="w-full">
-                                <p class="py-1 text-sm text-color-7 leading-[18px]">
-                                    {{ $report->reportable->text }}
-                                </p>
-                            </div>
-
-                            @if ($report->reportable->picture)
-                                <img class="mt-2 border border-color-3 w-full rounded-xl" src="{{ Storage::url($report->reportable->picture->url) }}">
-                            @endif
-                        </div>
-
-                        <div class="mt-4 w-full pl-10 text-color-4">
-                            <h4 class="w-full text-sm">Reported by 
-                                <a href="{{ route('profile', ['name' => $report->user->name]) }}" class="underline transition-colors hover:text-color-2">{{ "@" . $report->user->name }}</a>
-                            </h4>
-                            <div class="mt-2">
-                                <span class="text-sm pr-2">Reason:</span>
-                                <p class="pl-4 text-xs leading-4">
-                                    {{ $report->reason }}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="w-full pl-14 py-2 flex justify-between gap-2 text-sm">
-                            <button class="flex-1 py-1 border border-color-4 rounded-md text-color-4 transition-colors hover:bg-color-5" wire:click="fileElement({{ $report->id }})">Discard <i class="fa-solid fa-box-archive"></i></button>
-                            <button class="flex-1 py-1 border border-color-6 rounded-md text-color-6 transition-colors hover:bg-color-5" wire:click="removeElement({{ $report->id }})">Delete item <i class="fa-solid fa-trash"></i></button>
-                        </div>
-                    </div>
+                    <x-reported-post :report="$report" />
                 @endforeach
                 @break
 
             @case(1)
                 @foreach ($report_list as $report)
-                    <div class="py-2 flex flex-wrap">
-                        <img src="{{ Storage::url($report->reportable->user->profile->picture->url) }}" class="w-8 h-8 rounded-full">
-                        <div class="px-2 flex-1 flex flex-wrap">
-                            <div class="flex-1 flex justify-between">
-                                <h3 class="text-sm text-color-4">{{ "@" . $report->reportable->user->name }}</h3>
-                                <span class="text-xs text-color-4">
-                                    {{ $report->reportable->created_at->diffForHumans(null, true, true) }}
-                                </span>
-                            </div>
-
-                            <div class="w-full">
-                                <p class="py-1 text-sm text-color-7 leading-[18px]">
-                                    {{ $report->reportable->text }}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="mt-4 w-full pl-10 text-color-4">
-                            <h4 class="w-full text-sm">Reported by 
-                                <a href="{{ route('profile', ['name' => $report->user->name]) }}" class="underline transition-colors hover:text-color-2">{{ "@" . $report->user->name }}</a>
-                            </h4>
-                            <div class="mt-2">
-                                <span class="text-sm pr-2">Reason:</span>
-                                <p class="pl-4 text-xs leading-4">
-                                    {{ $report->reason }}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="w-full pl-14 py-2 flex justify-between gap-2 text-sm">
-                            <button class="flex-1 py-1 border border-color-4 rounded-md text-color-4 transition-colors hover:bg-color-5" wire:click="fileElement({{ $report->id }})">Discard <i class="fa-solid fa-box-archive"></i></button>
-                            <button class="flex-1 py-1 border border-color-6 rounded-md text-color-6 transition-colors hover:bg-color-5" wire:click="removeElement({{ $report->id }})">Delete item <i class="fa-solid fa-trash"></i></button>
-                        </div>
-                    </div>
+                    <x-reported-comment :report="$report" />
                 @endforeach
                 @break
 
             @case(2)
                 @foreach ($report_list as $report)
-                    <div class="py-2 flex flex-wrap">
-                        <img src="{{ Storage::url($report->reportable->user->profile->picture->url) }}" class="w-8 h-8 rounded-full">
-                        <div class="px-2 flex-1 flex flex-wrap">
-                            <div class="flex-1 flex justify-between">
-                                <h3 class="text-sm text-color-4">{{ "@" . $report->reportable->user->name }}</h3>
-                                <span class="text-xs text-color-4">
-                                    {{ $report->reportable->created_at->diffForHumans(null, true, true) }}
-                                </span>
-                            </div>
-
-                            <div class="w-full">
-                                <p class="py-1 text-sm text-color-7 leading-[18px]">
-                                    {{ $report->reportable->biography }}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="mt-4 w-full pl-10 text-color-4">
-                            <h4 class="w-full text-sm">Reported by 
-                                <a href="{{ route('profile', ['name' => $report->user->name]) }}" class="underline transition-colors hover:text-color-2">{{ "@" . $report->user->name }}</a>
-                            </h4>
-                            <div class="mt-2">
-                                <span class="text-sm pr-2">Reason:</span>
-                                <p class="pl-4 text-xs leading-4">
-                                    {{ $report->reason }}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="w-full pl-14 py-2 flex justify-between gap-2 text-sm">
-                            <button class="flex-1 py-1 border border-color-4 rounded-md text-color-4 transition-colors hover:bg-color-5" wire:click="fileElement({{ $report->id }})">Discard <i class="fa-solid fa-box-archive"></i></button>
-                            <button class="flex-1 py-1 border border-color-6 rounded-md text-color-6 transition-colors hover:bg-color-5" wire:click="removeElement({{ $report->id }})">Delete item <i class="fa-solid fa-trash"></i></button>
-                        </div>
-                    </div>
+                    <x-reported-profile :report="$report" />
                 @endforeach
                 @break
         @endswitch
+
+        @if (!count($report_list))
+            <div class="w-full h-56 flex flex-wrap justify-center items-center">
+                <div class="h-fit flex flex-wrap justify-center">
+                    <i class="fa-solid fa-check fa-4x text-color-4"></i>
+                    <p class="w-full mt-4 text-center text-lg text-color-4">Nothing to see here...</p>
+                    <p class="w-full text-center text-sm text-color-4">All reports on this section were already reviewed.</p>
+                </div>
+            </div>
+        @endif
     </div>
 
 </div>

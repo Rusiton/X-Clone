@@ -12,6 +12,8 @@ class ProfileController extends Controller
         if(!$user) return redirect()->route('home');
         if($user->profile->trashed()) return redirect()->route('home');
 
+        $profile = $user->profile;
+
         return view('profile', compact('profile'));
     }
 }
