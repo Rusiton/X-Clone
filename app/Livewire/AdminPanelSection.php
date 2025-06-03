@@ -23,7 +23,7 @@ class AdminPanelSection extends Component
 
 
     public function mount(){
-        $this->section = 'analytics';
+        $this->section = 'reports';
     }
 
 

@@ -20,6 +20,7 @@ return new class extends Migration
 
             $table->morphs('reportable');
             $table->text('reason', 500);
+            $table->boolean('active')->default(1);
 
             $table->timestamps();
         });

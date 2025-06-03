@@ -8,7 +8,7 @@
 
             <div class="w-16 h-full border-r-[1px] border-color-3 bg-color-5 flex flex-col transition-all fixed"
                     x-bind:class="open ? '!w-48 px-4 py-2' : '!w-16 p-2'"
-                    x-data="{ open: false, selected: 'analytics' }"
+                    x-data="{ open: false, selected: 'reports' }"
                     x-on:click.outside="open = false">
 
                 <div class="w-full py-4 flex justify-end overflow-hidden">
@@ -26,11 +26,6 @@
                 </div>
 
                 <div class="mt-2 flex-1 z-10 flex flex-col gap-2">
-
-                    <x-admin-menu-button
-                        name="Analytics"
-                        icon="chart-column"
-                    />
                     
                     <x-admin-menu-button
                         name="Reports"
