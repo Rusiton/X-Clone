@@ -31,7 +31,7 @@
             </label>
         </div>
     </div>
-    
+    {{ $report_list }}
     <div>
         @switch($sort)
             @case(0)

@@ -17,7 +17,11 @@ class ReportPanel extends Component
 
     public function getReportList(){
         $model = $this->sort === 0 ? 'Post' : ($this->sort === 1 ? 'Comment' : 'Profile');
-        $this->report_list = Report::where('reportable_type', "App\Models\\$model")->where('active', 1)->skip($this->skip)->take(25)->get();
+        $this->report_list = Report::where('reportable_type', "App\Models\\$model")
+                                    ->where('active', 1)
+                                    ->skip($this->skip)
+                                    ->take(25)
+                                    ->get();
     }
 
 

@@ -26,9 +26,11 @@ class PostDetails extends Component
 
 
 
-    public function openReportModal(){
+    public function openReportModal($id = null, $model = "Post"){
+        if(!$id) $id = $this->post->id;
+
         if(!$this->user) return redirect()->route('login');
-        $this->report->openReportModal($this->post->id, 'Post');
+        $this->report->openReportModal($id, $model);
     }
 
 
