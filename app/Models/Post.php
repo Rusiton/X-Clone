@@ -19,7 +19,7 @@ class Post extends Model
 
     // Returns the profile that owns this post
     public function profile(){
-        return $this->belongsTo(Profile::class);
+        return $this->belongsTo(Profile::class)->withTrashed();
     }
 
     // Returns the picture inside the post

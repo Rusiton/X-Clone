@@ -24,6 +24,6 @@ class Mention extends Model
 
     // Returns the profile that owns this mention
     public function profile(){
-        return $this->belongsTo(Post::class);
+        return $this->belongsTo(Post::class)->withTrashed();
     }
 }
