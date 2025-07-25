@@ -23,19 +23,17 @@ Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::get('/register', [RegisterController::class, 'index'])->name('register');
 Route::get('/logout', [LogoutController::class, 'index'])->name('logout');
 
-Route::middleware([EnsureUserRegisterIsCompleted::class])->group(function (){
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
-    Route::get('/search', [SearchController::class, 'index'])->name('search');
-    Route::get('/profile/{name}', [ProfileController::class, 'index'])->name('profile')->middleware(SaveLastUrl::class);
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/search', [SearchController::class, 'index'])->name('search');
+Route::get('/profile/{name}', [ProfileController::class, 'index'])->name('profile')->middleware(SaveLastUrl::class);
 
-    Route::get('/settings', [SettingsController::class, 'index'])->name('settings')->middleware(SaveLastUrl::class);
-    Route::put('/settings', [SettingsController::class, 'update'])->name('settings');
+Route::get('/settings', [SettingsController::class, 'index'])->name('settings')->middleware(SaveLastUrl::class);
+Route::put('/settings', [SettingsController::class, 'update'])->name('settings');
 
-    Route::get('/new-post', NewPost::class)->name('new-post');
-    Route::get('/post/{id}', [PostController::class, 'index'])->name('post')->middleware(SaveLastUrl::class);
+Route::get('/new-post', NewPost::class)->name('new-post');
+Route::get('/post/{id}', [PostController::class, 'index'])->name('post')->middleware(SaveLastUrl::class);
 
-    Route::post('/login', [LoginController::class, 'login'])->name('login');
-    Route::post('/register', [RegisterController::class, 'register'])->name('register');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/register', [RegisterController::class, 'register'])->name('register');
 
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin')->middleware(UserIsAdmin::class);
-});
+Route::get('/admin', [AdminController::class, 'index'])->name('admin')->middleware(UserIsAdmin::class);
