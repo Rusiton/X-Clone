@@ -36,7 +36,7 @@ class RegisterForm extends Component
         $user->roles()->attach(1);
 
         Setting::create([
-            'theme' => 1,
+            'theme' => 0,
             'user_id' => $user->id,
         ]);
 
@@ -46,8 +46,8 @@ class RegisterForm extends Component
             'user_id' => $user->id,
         ]);
 
-        Auth::login();
-        return redirect()->route('');
+        Auth::login($user);
+        return redirect()->route('home');
     }
 
 
